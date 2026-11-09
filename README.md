@@ -58,7 +58,14 @@ Todos os 10 achados, com os gráficos, estão em [`docs/resultados_detalhados.md
 | Distância real | Fator de tortuosidade medido com o OSRM e impacto nas conclusões | 09 |
 | Coleta múltipla | Várias coletas na mesma viagem (pickup and delivery) | 10 |
 
-O código reutilizável fica em `src/logistica_rotas/`, e os notebooks só orquestram. Os 39 testes automatizados (`tests/`) cobrem KPIs, limpeza, roteirização e despacho.
+O código reutilizável fica em `src/logistica_rotas/`, e os notebooks só orquestram. Os 50 testes automatizados (`tests/`) cobrem KPIs, limpeza, roteirização, despacho e o dashboard.
+
+## Dashboard
+O dashboard tem quatro páginas, com filtros compartilhados na barra lateral: período, horário (pico), dia útil, status, cidade e bairro. Os filtros ficam no endereço da página, então um link copiado abre a mesma visão.
+- **Visão geral:** KPIs com meta de OTD (95%) e variação contra o período anterior, OTD por dia, status e volume por bairro, além de um glossário dos indicadores.
+- **Desempenho:** OTD por faixa de distância (mesma cidade x entre cidades), atraso por hora e entregas por faixa.
+- **Mapa:** bairros no mapa, coloridos por atraso, volume ou tempo.
+- **Simulador de despacho:** escolha a espera máxima, a margem, a regra de pico, o volume e o modelo de coleta, e veja a economia de km e o prazo na curva de troca.
 
 ## O que mudou ao longo do projeto
 Três resultados iniciais foram revistos quando a análise ficou mais rigorosa. Todas as revisões estão registradas no [dicionário de dados](docs/dicionario_dados.md).
@@ -92,7 +99,8 @@ src/          pacote logistica_rotas (ingestao, limpeza, metricas, roteirizacao,
 reports/      figuras (PNG) e mapas interativos (HTML)
 docs/         dicionário de dados, decisões e resultados detalhados
 tests/        testes automatizados (pytest)
-app.py        dashboard Streamlit
+app.py        dashboard Streamlit (navegação e filtros)
+paginas/      páginas do dashboard
 ```
 
 ## Créditos de dados

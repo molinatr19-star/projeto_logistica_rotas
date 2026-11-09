@@ -99,3 +99,6 @@ Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/tes
 | 2026-11-09 | Na coleta múltipla, só juntar pedidos se o caminho conjunto for mais curto que as viagens separadas | Sem hub, juntar pode alongar o caminho; o caso foi pego por um teste automático |
 | 2026-11-09 | README reescrito como resumo de portfólio; resultados completos em `docs/resultados_detalhados.md` | Leitura rápida para avaliadores, sem perder o detalhe |
 | 2026-11-09 | Cards de KPI do dashboard com fonte proporcional à largura do cartão (container queries) | O valor "R$" era cortado em telas mais estreitas |
+| 2026-11-09 | Dashboard em 4 páginas (Visão geral, Desempenho, Mapa, Simulador) com filtros compartilhados no endereço da página | Navegação mais clara e links que reproduzem a mesma visão |
+| 2026-11-09 | Meta de OTD de 95% e variação vs período anterior (mesmo tamanho; aceita até 20% a menos de dias; entregas comparadas por dia) | Leitura de desempenho contra referência e tendência |
+| 2026-11-09 | Simulador usa toda a operação (ignora os filtros) e guarda cada cenário em cache | O despacho depende da sequência completa de pedidos; o cache deixa os controles fluidos |
