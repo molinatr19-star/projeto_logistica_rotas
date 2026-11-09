@@ -3,7 +3,8 @@
 Projeto de portfólio de análise de dados da Molina sobre logística: rotas inteligentes, desempenho de entregas, tempos de trânsito e eficiência operacional.
 
 ## Status atual
-- Fase: esqueleto criado (2026-11-07). Nenhum código funcional implementado.
+- Fase: análise exploratória (2026-11-09). Feitos: gerador de dados simulados (`src/logistica_rotas/ingestao/simulacao.py`) e `notebooks/01_analise_exploratoria_logistica.ipynb`.
+- Fonte de dados atual: entregas urbanas de moto simuladas (cidade fictícia), em `data/raw/dados_entregas_simulados.csv`.
 - Não implementar lógica, baixar dados nem rodar scripts sem pedido explícito da Molina.
 
 ## Objetivo do projeto
