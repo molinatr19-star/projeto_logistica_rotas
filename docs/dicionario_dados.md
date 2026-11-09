@@ -8,8 +8,10 @@ Gerado por `src/logistica_rotas/ingestao/simulacao.py` (`random_state=42`, 5.000
 
 **Real x simulado**
 - Real: municípios, nomes de bairros e nomes de vias.
-- Aproximado (verificar antes de usar em mapas): coordenada do centro de cada município.
-- Simulado: posição de cada bairro dentro do município (sorteada com `SEED_GEOGRAFIA=2026`, sem geocodificação), pedidos, horários, tempos, valores e status.
+- Geocodificado (OpenStreetMap/Nominatim, © colaboradores do OSM, ODbL): posição de 43 dos 45 bairros. Cache em `data/external/bairros_geocodificados.csv`.
+- Posição simulada (sorteada com `SEED_GEOGRAFIA=2026`): Utinga (SA) e Barão de Mauá (Mauá), que não passaram na validação. **Verificar** o nome "Barão de Mauá": não há bairro com esse nome no OSM.
+- Aproximado: coordenada do centro de cada município (usada só para a posição simulada e para validar a geocodificação).
+- Simulado: ponto exato da coleta/entrega dentro do bairro (±0,6 km), pedidos, horários, tempos, valores e status.
 - A rua do endereço é sorteada entre vias reais do município de destino; a combinação rua x bairro não foi verificada.
 - O nome "Centro" existe nas 5 cidades: sempre analisar bairro junto com a cidade (no dashboard, rótulo "Bairro · Sigla").
 
@@ -22,6 +24,8 @@ Gerado por `src/logistica_rotas/ingestao/simulacao.py` (`random_state=42`, 5.000
 | cidade_destino | categoria | - | 80% no mesmo município da origem; 20% em outro, por porte |
 | bairro_destino | categoria | - | Bairro da entrega, sorteado com peso igual dentro do município |
 | endereco_destino | texto | - | Via real do município de destino + número sorteado (10 a 2999) |
+| lat_origem / lon_origem | decimal | graus (WGS84) | Ponto da coleta: centro do bairro de origem ± 0,6 km |
+| lat_destino / lon_destino | decimal | graus (WGS84) | Ponto da entrega: centro do bairro de destino ± 0,6 km |
 | distancia_km | decimal | km | Haversine entre pontos sorteados nos bairros (±0,6 km) x 1,3 (tortuosidade); mínimo 0,5 |
 | horario_pico | sim/nao | - | Dia útil e hora em 7h, 8h, 17h, 18h ou 19h (pico de trânsito) |
 | tempo_transito_min | decimal | min | Distância / velocidade (28 km/h normal, 18 km/h pico, com variação) + tempo fixo de coleta/entrega (~6 min). Vazio se cancelado. ~0,5% com erro proposital (x4 a x8) |
@@ -74,3 +78,9 @@ Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/tes
 | 2026-11-09 | Grupos com menos de 30 entregas concluídas ficam sem OTD nos gráficos (`tabela_otd`, `min_pedidos=30`) | Percentual com poucas entregas oscila demais e leva a conclusões falsas |
 | 2026-11-09 | Comparar trajetos sempre dentro da mesma faixa de distância | O notebook 03 mostrou que a diferença "entre cidades x mesma cidade" vem da distância (composição), não da divisa |
 | 2026-11-09 | Figuras do relatório versionadas em `reports/figures/` | O README do portfólio exibe os gráficos no GitHub |
+| 2026-11-09 | Geocodificar bairros com Nominatim (1 consulta/s, cache versionado) | Coordenadas reais para mapas e roteirização; o cache evita repetir consultas ao serviço |
+| 2026-11-09 | Aceitar só resultados do tipo área de bairro (suburb, quarter, neighbourhood...) | Utinga caiu numa estação e Barão de Mauá numa avenida: ponto errado é pior que posição simulada sinalizada |
+| 2026-11-09 | "Osvaldo Cruz" renomeado para "Oswaldo Cruz" (São Caetano do Sul) | Grafia usada no OSM |
+| 2026-11-09 | Fixar `ortools==9.14.6206` | 9.15 bloqueada pelo Smart App Control do Windows |
+| 2026-11-09 | Roteirização: hub no Centro de cada cidade, lotes de 2 h com 3+ pedidos, até 4 pedidos por moto, 3 min por parada, velocidade determinística | Cenário simples e explícito para comparar métodos entre si (não é previsão de operação real) |
+| 2026-11-09 | Penalidade de atraso no OR-Tools: 1 min = 2 km | Equilibra economia de km e prazo; valor arbitrário, a testar em sensibilidade |

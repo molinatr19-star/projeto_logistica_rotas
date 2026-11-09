@@ -1,0 +1,46 @@
+cidade,bairro,consulta,lat,lon,tipo_osm,nome_osm,dist_centro_km,valido
+Santo André,Centro,"Centro, Santo André, São Paulo, Brasil",-23.6579186,-46.5264427,suburb,"Centro, Santo André, São Paulo, Região Sudeste, Brasil",1.38,True
+Santo André,Vila Assunção,"Vila Assunção, Santo André, São Paulo, Brasil",-23.6714442,-46.5268318,suburb,"Vila Assunção, Santo André, São Paulo, Região Sudeste, Brasil",1.44,True
+Santo André,Bairro Jardim,"Bairro Jardim, Santo André, São Paulo, Brasil",-23.6485194,-46.5370171,suburb,"Jardim, Santo André, São Paulo, Região Sudeste, Brasil",1.72,True
+Santo André,Campestre,"Campestre, Santo André, São Paulo, Brasil",-23.6404419,-46.5454853,suburb,"Campestre, Santo André, São Paulo, Região Sudeste, Brasil",2.71,True
+Santo André,Vila Bastos,"Vila Bastos, Santo André, São Paulo, Brasil",-23.6594319,-46.534077,suburb,"Vila Bastos, Santo André, São Paulo, Região Sudeste, Brasil",0.66,True
+Santo André,Utinga,"Utinga, Santo André, São Paulo, Brasil",-23.6261783,-46.5440631,railway,"Utinga, Viaduto Juvenal Fontanella, Vila Metalúrgica, Santo André, São Paulo, Região Sudeste, 09220-570, Brasil",4.24,False
+Santo André,Vila Luzita,"Vila Luzita, Santo André, São Paulo, Brasil",-23.7013102,-46.5069917,suburb,"Vila Luzita, Santo André, São Paulo, Região Sudeste, Brasil",5.24,True
+Santo André,Parque das Nações,"Parque das Nações, Santo André, São Paulo, Brasil",-23.6369823,-46.5207289,suburb,"Parque das Nações, Santo André, São Paulo, Região Sudeste, Brasil",3.49,True
+Santo André,Vila Guiomar,"Vila Guiomar, Santo André, São Paulo, Brasil",-23.6573063,-46.5435419,suburb,"Vila Guiomar, Santo André, São Paulo, Região Sudeste, Brasil",0.91,True
+Santo André,Casa Branca,"Casa Branca, Santo André, São Paulo, Brasil",-23.6611009,-46.5195424,suburb,"Casa Branca, Santo André, São Paulo, Região Sudeste, Brasil",1.94,True
+São Bernardo do Campo,Centro,"Centro, São Bernardo do Campo, São Paulo, Brasil",-23.7096982,-46.5504348,suburb,"Centro, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",2.3,True
+São Bernardo do Campo,Rudge Ramos,"Rudge Ramos, São Bernardo do Campo, São Paulo, Brasil",-23.6590824,-46.5682591,suburb,"Rudge Ramos, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",3.89,True
+São Bernardo do Campo,Baeta Neves,"Baeta Neves, São Bernardo do Campo, São Paulo, Brasil",-23.6909846,-46.5406792,suburb,"Baeta Neves, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",2.5,True
+São Bernardo do Campo,Nova Petrópolis,"Nova Petrópolis, São Bernardo do Campo, São Paulo, Brasil",-23.7080705,-46.5396292,suburb,"Nova Petrópolis, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",3.03,True
+São Bernardo do Campo,Assunção,"Assunção, São Bernardo do Campo, São Paulo, Brasil",-23.7191358,-46.5692486,suburb,"Assunção, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",2.84,True
+São Bernardo do Campo,Planalto,"Planalto, São Bernardo do Campo, São Paulo, Brasil",-23.6998572,-46.5697732,suburb,"Planalto, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",0.82,True
+São Bernardo do Campo,Demarchi,"Demarchi, São Bernardo do Campo, São Paulo, Brasil",-23.7395442,-46.5558968,suburb,"Demarchi, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",5.16,True
+São Bernardo do Campo,Ferrazópolis,"Ferrazópolis, São Bernardo do Campo, São Paulo, Brasil",-23.7264215,-46.5423279,suburb,"Ferrazópolis, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",4.29,True
+São Bernardo do Campo,Jardim do Mar,"Jardim do Mar, São Bernardo do Campo, São Paulo, Brasil",-23.691446,-46.5560154,quarter,"Jardim do Mar, Centro, São Bernardo do Campo, São Paulo, Região Sudeste, 09750-660, Brasil",0.95,True
+São Bernardo do Campo,Paulicéia,"Paulicéia, São Bernardo do Campo, São Paulo, Brasil",-23.6666703,-46.5857703,suburb,"Paulicéia, São Bernardo do Campo, São Paulo, Região Sudeste, Brasil",3.69,True
+São Caetano do Sul,Centro,"Centro, São Caetano do Sul, São Paulo, Brasil",-23.6116088,-46.5747725,suburb,"Centro, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",2.39,True
+São Caetano do Sul,Santa Paula,"Santa Paula, São Caetano do Sul, São Paulo, Brasil",-23.6169544,-46.5633542,suburb,"Santa Paula, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",1.09,True
+São Caetano do Sul,Barcelona,"Barcelona, São Caetano do Sul, São Paulo, Brasil",-23.6203476,-46.5504286,suburb,"Barcelona, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",0.53,True
+São Caetano do Sul,Santa Maria,"Santa Maria, São Caetano do Sul, São Paulo, Brasil",-23.6341722,-46.5532583,suburb,"Santa Maria, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",1.26,True
+São Caetano do Sul,Cerâmica,"Cerâmica, São Caetano do Sul, São Paulo, Brasil",-23.6247901,-46.5756006,suburb,"Cerâmica, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",2.13,True
+São Caetano do Sul,Fundação,"Fundação, São Caetano do Sul, São Paulo, Brasil",-23.6080066,-46.5684379,suburb,"Fundação, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",2.16,True
+São Caetano do Sul,Oswaldo Cruz,"Oswaldo Cruz, São Caetano do Sul, São Paulo, Brasil",-23.629222,-46.566808,suburb,"Oswaldo Cruz, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",1.41,True
+São Caetano do Sul,Olímpico,"Olímpico, São Caetano do Sul, São Paulo, Brasil",-23.6274802,-46.560125,suburb,"Olímpico, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",0.74,True
+São Caetano do Sul,Nova Gerty,"Nova Gerty, São Caetano do Sul, São Paulo, Brasil",-23.6419711,-46.5660749,suburb,"Nova Gerty, São Caetano do Sul, São Paulo, Região Sudeste, Brasil",2.41,True
+Diadema,Centro,"Centro, Diadema, São Paulo, Brasil",-23.685978,-46.6230373,suburb,"Centro, Diadema, São Paulo, Região Sudeste, 09911-050, Brasil",0.58,True
+Diadema,Piraporinha,"Piraporinha, Diadema, São Paulo, Brasil",-23.6822833,-46.5860072,suburb,"Piraporinha, Diadema, São Paulo, Região Sudeste, Brasil",3.51,True
+Diadema,Serraria,"Serraria, Diadema, São Paulo, Brasil",-23.7065737,-46.608173,suburb,"Serraria, Diadema, São Paulo, Região Sudeste, Brasil",3.08,True
+Diadema,Eldorado,"Eldorado, Diadema, São Paulo, Brasil",-23.7259107,-46.6214168,suburb,"Eldorado, Diadema, São Paulo, Região Sudeste, Brasil",4.96,True
+Diadema,Taboão,"Taboão, Diadema, São Paulo, Brasil",-23.6702244,-46.6110848,suburb,"Taboão, Diadema, São Paulo, Região Sudeste, Brasil",1.56,True
+Diadema,Canhema,"Canhema, Diadema, São Paulo, Brasil",-23.6787545,-46.6028538,suburb,"Canhema, Diadema, São Paulo, Região Sudeste, Brasil",1.82,True
+Diadema,Campanário,"Campanário, Diadema, São Paulo, Brasil",-23.6687532,-46.623012,suburb,"Campanário, Diadema, São Paulo, Região Sudeste, Brasil",1.42,True
+Diadema,Conceição,"Conceição, Diadema, São Paulo, Brasil",-23.696566,-46.6148188,suburb,"Conceição, Diadema, São Paulo, Região Sudeste, 09991-200, Brasil",1.79,True
+Mauá,Centro,"Centro, Mauá, São Paulo, Brasil",-23.6666495,-46.4616871,suburb,"Centro, Mauá, São Paulo, Região Sudeste, 09390-030, Brasil",0.13,True
+Mauá,Vila Noêmia,"Vila Noêmia, Mauá, São Paulo, Brasil",-23.6714322,-46.4659334,quarter,"Vila Noêmia, Jardim Pedroso, Mauá, São Paulo, Região Sudeste, 09370-550, Brasil",0.62,True
+Mauá,Barão de Mauá,"Barão de Mauá, Mauá, São Paulo, Brasil",-23.671892,-46.4226511,primary,"Avenida Barão de Mauá, Jardim Elvira, Jardim Canadá, Vila São João, Mauá, São Paulo, Região Sudeste, 09330-150, Brasil",3.96,False
+Mauá,Jardim Zaíra,"Jardim Zaíra, Mauá, São Paulo, Brasil",-23.6484225,-46.4330135,suburb,"Jardim Zaíra, Mauá, São Paulo, Região Sudeste, 09321-110, Brasil",3.6,True
+Mauá,Parque São Vicente,"Parque São Vicente, Mauá, São Paulo, Brasil",-23.6699725,-46.4752622,suburb,"Parque São Vicente, Mauá, São Paulo, Região Sudeste, 09371-160, Brasil",1.44,True
+Mauá,Vila Bocaina,"Vila Bocaina, Mauá, São Paulo, Brasil",-23.6737763,-46.4526765,quarter,"Vila Augusto, Jardim Santa Lídia, Mauá, São Paulo, Região Sudeste, 09310-640, Brasil",1.1,True
+Mauá,Jardim Itapeva,"Jardim Itapeva, Mauá, São Paulo, Brasil",-23.672454,-46.4138961,suburb,"Jardim Itapeva, Mauá, São Paulo, Região Sudeste, 09341-550, Brasil",4.86,True
+Mauá,Matriz,"Matriz, Mauá, São Paulo, Brasil",-23.670212,-46.4617313,suburb,"Bairro da Matriz, Mauá, São Paulo, Região Sudeste, 09370-111, Brasil",0.27,True

@@ -14,7 +14,7 @@ geopandas
 folium
 haversine
 networkx
-ortools
+ortools==9.14.6206  # 9.15 bloqueada pelo Smart App Control do Windows (2026-11-09)
 
 # Ambiente e qualidade
 jupyterlab

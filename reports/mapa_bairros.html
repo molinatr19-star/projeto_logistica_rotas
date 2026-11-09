@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_b1abc9019ea20d81f2d48899b1f4ecb2 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_b1abc9019ea20d81f2d48899b1f4ecb2" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_b1abc9019ea20d81f2d48899b1f4ecb2 = L.map(
+                "map_b1abc9019ea20d81f2d48899b1f4ecb2",
+                {
+                    center: [-23.667391920036906, -46.544233655330004],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+
+            
+
+        
+    
+            var tile_layer_f827daabe438892fe1d85af0d2a3578c = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f827daabe438892fe1d85af0d2a3578c.addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+            var circle_marker_cfa093afeb4dcb113ef66db8b7c2e18e = L.circleMarker(
+                [-23.6687532, -46.623012],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2f79d2ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.73312629199899, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_119552ff3b85930b1ddfc1dbd17aced3 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_62727689c102f94458550c0c34a145de = $(`<div id="html_62727689c102f94458550c0c34a145de" style="width: 100.0%; height: 100.0%;"><b>Campanário</b> · Diadema<br>Entregas: 80<br>Atraso: 8,8%<br>Tempo mediano: 17 min<br>Distância média: 6,6 km</div>`)[0];
+                popup_119552ff3b85930b1ddfc1dbd17aced3.setContent(html_62727689c102f94458550c0c34a145de);
+            
+        
+
+        circle_marker_cfa093afeb4dcb113ef66db8b7c2e18e.bindPopup(popup_119552ff3b85930b1ddfc1dbd17aced3)
+        ;
+
+        
+    
+    
+            circle_marker_cfa093afeb4dcb113ef66db8b7c2e18e.bindTooltip(
+                `<div>
+                     Campanário · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f0f6a0a9c8adc3a8284ad3c123605eee = L.circleMarker(
+                [-23.6787545, -46.6028538],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3987e5ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.145341380123988, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_b76e1ffe7e64d452686a4f34691ee577 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ca489031011532ca6711b5c41b98da65 = $(`<div id="html_ca489031011532ca6711b5c41b98da65" style="width: 100.0%; height: 100.0%;"><b>Canhema</b> · Diadema<br>Entregas: 120<br>Atraso: 7,5%<br>Tempo mediano: 15 min<br>Distância média: 4,4 km</div>`)[0];
+                popup_b76e1ffe7e64d452686a4f34691ee577.setContent(html_ca489031011532ca6711b5c41b98da65);
+            
+        
+
+        circle_marker_f0f6a0a9c8adc3a8284ad3c123605eee.bindPopup(popup_b76e1ffe7e64d452686a4f34691ee577)
+        ;
+
+        
+    
+    
+            circle_marker_f0f6a0a9c8adc3a8284ad3c123605eee.bindTooltip(
+                `<div>
+                     Canhema · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_44878cd6e395c0eecfc12b6b0888fa7a = L.circleMarker(
+                [-23.685978, -46.6230373],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#347fdbff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.879393923933998, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_d53ca1038ec387d517a2af311c503429 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_e6d4373c7eb904e9aa30bfc7480adeff = $(`<div id="html_e6d4373c7eb904e9aa30bfc7480adeff" style="width: 100.0%; height: 100.0%;"><b>Centro</b> · Diadema<br>Entregas: 98<br>Atraso: 8,2%<br>Tempo mediano: 16 min<br>Distância média: 5,8 km</div>`)[0];
+                popup_d53ca1038ec387d517a2af311c503429.setContent(html_e6d4373c7eb904e9aa30bfc7480adeff);
+            
+        
+
+        circle_marker_44878cd6e395c0eecfc12b6b0888fa7a.bindPopup(popup_d53ca1038ec387d517a2af311c503429)
+        ;
+
+        
+    
+    
+            circle_marker_44878cd6e395c0eecfc12b6b0888fa7a.bindTooltip(
+                `<div>
+                     Centro · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ff75f5f5bf295b870c7f73066639a0cc = L.circleMarker(
+                [-23.696566, -46.6148188],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#347fdbff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.879393923933998, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_a4de161cc413a7f17dfbf0bdc60decfb = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a853d342e3b444c196286864bbbc5500 = $(`<div id="html_a853d342e3b444c196286864bbbc5500" style="width: 100.0%; height: 100.0%;"><b>Conceição</b> · Diadema<br>Entregas: 98<br>Atraso: 8,2%<br>Tempo mediano: 14 min<br>Distância média: 5,4 km</div>`)[0];
+                popup_a4de161cc413a7f17dfbf0bdc60decfb.setContent(html_a853d342e3b444c196286864bbbc5500);
+            
+        
+
+        circle_marker_ff75f5f5bf295b870c7f73066639a0cc.bindPopup(popup_a4de161cc413a7f17dfbf0bdc60decfb)
+        ;
+
+        
+    
+    
+            circle_marker_ff75f5f5bf295b870c7f73066639a0cc.bindTooltip(
+                `<div>
+                     Conceição · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_560c6bbcabc5f2c5a4a55f22488bb69e = L.circleMarker(
+                [-23.7259107, -46.6214168],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#296fc5ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.86856635371633, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_893ee4269532a888b27504d970da7434 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_206b975a6900ac5b704fafa58f1f679e = $(`<div id="html_206b975a6900ac5b704fafa58f1f679e" style="width: 100.0%; height: 100.0%;"><b>Eldorado</b> · Diadema<br>Entregas: 115<br>Atraso: 9,6%<br>Tempo mediano: 20 min<br>Distância média: 7,4 km</div>`)[0];
+                popup_893ee4269532a888b27504d970da7434.setContent(html_206b975a6900ac5b704fafa58f1f679e);
+            
+        
+
+        circle_marker_560c6bbcabc5f2c5a4a55f22488bb69e.bindPopup(popup_893ee4269532a888b27504d970da7434)
+        ;
+
+        
+    
+    
+            circle_marker_560c6bbcabc5f2c5a4a55f22488bb69e.bindTooltip(
+                `<div>
+                     Eldorado · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b5c23270c0c3bfdf650097065920e45e = L.circleMarker(
+                [-23.6822833, -46.5860072],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#154b8fff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.059850745345067, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_d19e0cc061e13dce1f1cd839d891f409 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ec42fdf9db0a80b337d687e3b71d1c74 = $(`<div id="html_ec42fdf9db0a80b337d687e3b71d1c74" style="width: 100.0%; height: 100.0%;"><b>Piraporinha</b> · Diadema<br>Entregas: 101<br>Atraso: 12,9%<br>Tempo mediano: 17 min<br>Distância média: 5,2 km</div>`)[0];
+                popup_d19e0cc061e13dce1f1cd839d891f409.setContent(html_ec42fdf9db0a80b337d687e3b71d1c74);
+            
+        
+
+        circle_marker_b5c23270c0c3bfdf650097065920e45e.bindPopup(popup_d19e0cc061e13dce1f1cd839d891f409)
+        ;
+
+        
+    
+    
+            circle_marker_b5c23270c0c3bfdf650097065920e45e.bindTooltip(
+                `<div>
+                     Piraporinha · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8aac2b22307c8c5dd455c7621a70f6a4 = L.circleMarker(
+                [-23.7065737, -46.608173],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4a92e8ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.29634091915152, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_c40d9b98f1c91f6d46c2299927623b8f = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a6a5992829da97ef59e6b7dd3f4fcf42 = $(`<div id="html_a6a5992829da97ef59e6b7dd3f4fcf42" style="width: 100.0%; height: 100.0%;"><b>Serraria</b> · Diadema<br>Entregas: 105<br>Atraso: 6,7%<br>Tempo mediano: 16 min<br>Distância média: 5,7 km</div>`)[0];
+                popup_c40d9b98f1c91f6d46c2299927623b8f.setContent(html_a6a5992829da97ef59e6b7dd3f4fcf42);
+            
+        
+
+        circle_marker_8aac2b22307c8c5dd455c7621a70f6a4.bindPopup(popup_c40d9b98f1c91f6d46c2299927623b8f)
+        ;
+
+        
+    
+    
+            circle_marker_8aac2b22307c8c5dd455c7621a70f6a4.bindTooltip(
+                `<div>
+                     Serraria · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1a0f96e67a16b7cd3b66219a9191fcb2 = L.circleMarker(
+                [-23.6702244, -46.6110848],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#70a9edff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.23764683262268, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_a2970eb15958784fe7670a636caa085e = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ca3fc2cec9d6c85c7629225ed959fbd1 = $(`<div id="html_ca3fc2cec9d6c85c7629225ed959fbd1" style="width: 100.0%; height: 100.0%;"><b>Taboão</b> · Diadema<br>Entregas: 104<br>Atraso: 4,8%<br>Tempo mediano: 15 min<br>Distância média: 5,3 km</div>`)[0];
+                popup_a2970eb15958784fe7670a636caa085e.setContent(html_ca3fc2cec9d6c85c7629225ed959fbd1);
+            
+        
+
+        circle_marker_1a0f96e67a16b7cd3b66219a9191fcb2.bindPopup(popup_a2970eb15958784fe7670a636caa085e)
+        ;
+
+        
+    
+    
+            circle_marker_1a0f96e67a16b7cd3b66219a9191fcb2.bindTooltip(
+                `<div>
+                     Taboão · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_35b7e7aad56409221850db76de7b0451 = L.circleMarker(
+                [-23.646044444698102, -46.47144433589643],
+                {"bubblingMouseEvents": true, "color": "#0b0b0b", "dashArray": "4", "dashOffset": null, "fill": true, "fillColor": "#3b88e6ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.470765814495916, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_2af6f521bc74a8deb7e53066188a0342 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_23690cacc3e31847e8706c29311b1cbf = $(`<div id="html_23690cacc3e31847e8706c29311b1cbf" style="width: 100.0%; height: 100.0%;"><b>Barão de Mauá</b> · Mauá<br>Entregas: 108<br>Atraso: 7,4%<br>Tempo mediano: 17 min<br>Distância média: 6,8 km<br><i>Posição simulada (não encontrada no OSM)</i></div>`)[0];
+                popup_2af6f521bc74a8deb7e53066188a0342.setContent(html_23690cacc3e31847e8706c29311b1cbf);
+            
+        
+
+        circle_marker_35b7e7aad56409221850db76de7b0451.bindPopup(popup_2af6f521bc74a8deb7e53066188a0342)
+        ;
+
+        
+    
+    
+            circle_marker_35b7e7aad56409221850db76de7b0451.bindTooltip(
+                `<div>
+                     Barão de Mauá · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_42a924a1cd725a6c78aecb4dc1ca779b = L.circleMarker(
+                [-23.6666495, -46.4616871],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#337edaff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.52836781069266, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_74a4810f06444541a5599dbbc8373106 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_e68b03350dc062a2a1103b267562a263 = $(`<div id="html_e68b03350dc062a2a1103b267562a263" style="width: 100.0%; height: 100.0%;"><b>Centro</b> · Mauá<br>Entregas: 109<br>Atraso: 8,3%<br>Tempo mediano: 14 min<br>Distância média: 6,0 km</div>`)[0];
+                popup_74a4810f06444541a5599dbbc8373106.setContent(html_e68b03350dc062a2a1103b267562a263);
+            
+        
+
+        circle_marker_42a924a1cd725a6c78aecb4dc1ca779b.bindPopup(popup_74a4810f06444541a5599dbbc8373106)
+        ;
+
+        
+    
+    
+            circle_marker_42a924a1cd725a6c78aecb4dc1ca779b.bindTooltip(
+                `<div>
+                     Centro · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_581a76e4e48900d161f88a149970b3fa = L.circleMarker(
+                [-23.672454, -46.4138961],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#276dc2ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.119405926034492, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_6f719e4758163c906f0a35d62c1ce12c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_5c5750b172dd7bd56d71d3a97ac40152 = $(`<div id="html_5c5750b172dd7bd56d71d3a97ac40152" style="width: 100.0%; height: 100.0%;"><b>Jardim Itapeva</b> · Mauá<br>Entregas: 102<br>Atraso: 9,8%<br>Tempo mediano: 23 min<br>Distância média: 9,0 km</div>`)[0];
+                popup_6f719e4758163c906f0a35d62c1ce12c.setContent(html_5c5750b172dd7bd56d71d3a97ac40152);
+            
+        
+
+        circle_marker_581a76e4e48900d161f88a149970b3fa.bindPopup(popup_6f719e4758163c906f0a35d62c1ce12c)
+        ;
+
+        
+    
+    
+            circle_marker_581a76e4e48900d161f88a149970b3fa.bindTooltip(
+                `<div>
+                     Jardim Itapeva · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8b1dd1271e7561f200aa04bb521311e1 = L.circleMarker(
+                [-23.6484225, -46.4330135],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4891e7ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.320777358467923, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_9a2c544423dddbcff25586a9782182d2 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_b1d7efc1dc19e15a1f939528dd4a2ba2 = $(`<div id="html_b1d7efc1dc19e15a1f939528dd4a2ba2" style="width: 100.0%; height: 100.0%;"><b>Jardim Zaíra</b> · Mauá<br>Entregas: 89<br>Atraso: 6,7%<br>Tempo mediano: 19 min<br>Distância média: 7,3 km</div>`)[0];
+                popup_9a2c544423dddbcff25586a9782182d2.setContent(html_b1d7efc1dc19e15a1f939528dd4a2ba2);
+            
+        
+
+        circle_marker_8b1dd1271e7561f200aa04bb521311e1.bindPopup(popup_9a2c544423dddbcff25586a9782182d2)
+        ;
+
+        
+    
+    
+            circle_marker_8b1dd1271e7561f200aa04bb521311e1.bindTooltip(
+                `<div>
+                     Jardim Zaíra · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_266e3a44af7b1ba04d57e98121ea5767 = L.circleMarker(
+                [-23.670212, -46.4617313],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3886e4ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.509995655950526, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_460740aacaecf4a5bb3868b76f73bf5d = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_5c82d5e5b7eb7ccf91d3e73dc0e239ce = $(`<div id="html_5c82d5e5b7eb7ccf91d3e73dc0e239ce" style="width: 100.0%; height: 100.0%;"><b>Matriz</b> · Mauá<br>Entregas: 92<br>Atraso: 7,6%<br>Tempo mediano: 13 min<br>Distância média: 5,8 km</div>`)[0];
+                popup_460740aacaecf4a5bb3868b76f73bf5d.setContent(html_5c82d5e5b7eb7ccf91d3e73dc0e239ce);
+            
+        
+
+        circle_marker_266e3a44af7b1ba04d57e98121ea5767.bindPopup(popup_460740aacaecf4a5bb3868b76f73bf5d)
+        ;
+
+        
+    
+    
+            circle_marker_266e3a44af7b1ba04d57e98121ea5767.bindTooltip(
+                `<div>
+                     Matriz · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a16f0f4a8c77870ea967d1581e18b297 = L.circleMarker(
+                [-23.6699725, -46.4752622],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5297e9ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.757550765359253, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_1aaba382d108d2742d4fc11ebdcbc74b = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_fd0f343f6e23a27c2b31a4aeaab2918c = $(`<div id="html_fd0f343f6e23a27c2b31a4aeaab2918c" style="width: 100.0%; height: 100.0%;"><b>Parque São Vicente</b> · Mauá<br>Entregas: 96<br>Atraso: 6,2%<br>Tempo mediano: 14 min<br>Distância média: 5,1 km</div>`)[0];
+                popup_1aaba382d108d2742d4fc11ebdcbc74b.setContent(html_fd0f343f6e23a27c2b31a4aeaab2918c);
+            
+        
+
+        circle_marker_a16f0f4a8c77870ea967d1581e18b297.bindPopup(popup_1aaba382d108d2742d4fc11ebdcbc74b)
+        ;
+
+        
+    
+    
+            circle_marker_a16f0f4a8c77870ea967d1581e18b297.bindTooltip(
+                `<div>
+                     Parque São Vicente · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3760dd9e10eec7f5989d9c46b9fef06a = L.circleMarker(
+                [-23.6737763, -46.4526765],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5095e8ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.63443165779919, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_6a65a076399a889312ea19acd8dd36aa = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_c89f612689c296be2b349f29a0c63098 = $(`<div id="html_c89f612689c296be2b349f29a0c63098" style="width: 100.0%; height: 100.0%;"><b>Vila Bocaina</b> · Mauá<br>Entregas: 94<br>Atraso: 6,4%<br>Tempo mediano: 15 min<br>Distância média: 5,9 km</div>`)[0];
+                popup_6a65a076399a889312ea19acd8dd36aa.setContent(html_c89f612689c296be2b349f29a0c63098);
+            
+        
+
+        circle_marker_3760dd9e10eec7f5989d9c46b9fef06a.bindPopup(popup_6a65a076399a889312ea19acd8dd36aa)
+        ;
+
+        
+    
+    
+            circle_marker_3760dd9e10eec7f5989d9c46b9fef06a.bindTooltip(
+                `<div>
+                     Vila Bocaina · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6b874a3c1819ef9c2068783093919a2a = L.circleMarker(
+                [-23.6714322, -46.4659334],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#103f7aff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.509995655950526, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_234b86e58fa82fc098296fd00e992595 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_2e3ed8905c24022cfa5acc8c8928ab6d = $(`<div id="html_2e3ed8905c24022cfa5acc8c8928ab6d" style="width: 100.0%; height: 100.0%;"><b>Vila Noêmia</b> · Mauá<br>Entregas: 92<br>Atraso: 14,1%<br>Tempo mediano: 13 min<br>Distância média: 4,9 km</div>`)[0];
+                popup_234b86e58fa82fc098296fd00e992595.setContent(html_2e3ed8905c24022cfa5acc8c8928ab6d);
+            
+        
+
+        circle_marker_6b874a3c1819ef9c2068783093919a2a.bindPopup(popup_234b86e58fa82fc098296fd00e992595)
+        ;
+
+        
+    
+    
+            circle_marker_6b874a3c1819ef9c2068783093919a2a.bindTooltip(
+                `<div>
+                     Vila Noêmia · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3ebc1818a5cac5b07f7e70e58e09d891 = L.circleMarker(
+                [-23.6485194, -46.5370171],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#286fc5ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.41640786499874, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_0624307bcf05c5636ea48eb1b7ce1862 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_240ae482c3bc15c5235579cb71b31c54 = $(`<div id="html_240ae482c3bc15c5235579cb71b31c54" style="width: 100.0%; height: 100.0%;"><b>Bairro Jardim</b> · Santo André<br>Entregas: 125<br>Atraso: 9,6%<br>Tempo mediano: 12 min<br>Distância média: 3,5 km</div>`)[0];
+                popup_0624307bcf05c5636ea48eb1b7ce1862.setContent(html_240ae482c3bc15c5235579cb71b31c54);
+            
+        
+
+        circle_marker_3ebc1818a5cac5b07f7e70e58e09d891.bindPopup(popup_0624307bcf05c5636ea48eb1b7ce1862)
+        ;
+
+        
+    
+    
+            circle_marker_3ebc1818a5cac5b07f7e70e58e09d891.bindTooltip(
+                `<div>
+                     Bairro Jardim · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0db9c4645a007c826a680c3f780d2255 = L.circleMarker(
+                [-23.6404419, -46.5454853],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5f9eeaff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.354756169184398, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_a9dbd4a23ba1c4e030bb2154d054f0ee = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_20efe6797c7fcb171a2158564d0375fa = $(`<div id="html_20efe6797c7fcb171a2158564d0375fa" style="width: 100.0%; height: 100.0%;"><b>Campestre</b> · Santo André<br>Entregas: 106<br>Atraso: 5,7%<br>Tempo mediano: 16 min<br>Distância média: 4,5 km</div>`)[0];
+                popup_a9dbd4a23ba1c4e030bb2154d054f0ee.setContent(html_20efe6797c7fcb171a2158564d0375fa);
+            
+        
+
+        circle_marker_0db9c4645a007c826a680c3f780d2255.bindPopup(popup_a9dbd4a23ba1c4e030bb2154d054f0ee)
+        ;
+
+        
+    
+    
+            circle_marker_0db9c4645a007c826a680c3f780d2255.bindTooltip(
+                `<div>
+                     Campestre · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ec002a628db307d44ad802f07c2e74c6 = L.circleMarker(
+                [-23.6611009, -46.5195424],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#327dd8ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.145341380123988, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_053c25184d615f98113bcff853230275 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_365361c027d33b724b1f48ceb3881f8e = $(`<div id="html_365361c027d33b724b1f48ceb3881f8e" style="width: 100.0%; height: 100.0%;"><b>Casa Branca</b> · Santo André<br>Entregas: 120<br>Atraso: 8,3%<br>Tempo mediano: 14 min<br>Distância média: 4,5 km</div>`)[0];
+                popup_053c25184d615f98113bcff853230275.setContent(html_365361c027d33b724b1f48ceb3881f8e);
+            
+        
+
+        circle_marker_ec002a628db307d44ad802f07c2e74c6.bindPopup(popup_053c25184d615f98113bcff853230275)
+        ;
+
+        
+    
+    
+            circle_marker_ec002a628db307d44ad802f07c2e74c6.bindTooltip(
+                `<div>
+                     Casa Branca · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c7b58e059c20c1c625f2aeed41d991d9 = L.circleMarker(
+                [-23.6579186, -46.5264427],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8dbbf1ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.090454537562856, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_cc011ee4c659654de7b9b9cdcc788f06 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a4bb97e547b79f9ec27adebff23a9c34 = $(`<div id="html_a4bb97e547b79f9ec27adebff23a9c34" style="width: 100.0%; height: 100.0%;"><b>Centro</b> · Santo André<br>Entregas: 119<br>Atraso: 3,4%<br>Tempo mediano: 12 min<br>Distância média: 3,7 km</div>`)[0];
+                popup_cc011ee4c659654de7b9b9cdcc788f06.setContent(html_a4bb97e547b79f9ec27adebff23a9c34);
+            
+        
+
+        circle_marker_c7b58e059c20c1c625f2aeed41d991d9.bindPopup(popup_cc011ee4c659654de7b9b9cdcc788f06)
+        ;
+
+        
+    
+    
+            circle_marker_c7b58e059c20c1c625f2aeed41d991d9.bindTooltip(
+                `<div>
+                     Centro · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_771713237178cc52811140539bc0b5ef = L.circleMarker(
+                [-23.6369823, -46.5207289],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#70a9edff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.362634470792052, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_60353a5d1283fe1db91b56414d10d2c2 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_fbc17fd53e223db1fd825e958d02305a = $(`<div id="html_fbc17fd53e223db1fd825e958d02305a" style="width: 100.0%; height: 100.0%;"><b>Parque das Nações</b> · Santo André<br>Entregas: 124<br>Atraso: 4,8%<br>Tempo mediano: 16 min<br>Distância média: 5,4 km</div>`)[0];
+                popup_60353a5d1283fe1db91b56414d10d2c2.setContent(html_fbc17fd53e223db1fd825e958d02305a);
+            
+        
+
+        circle_marker_771713237178cc52811140539bc0b5ef.bindPopup(popup_60353a5d1283fe1db91b56414d10d2c2)
+        ;
+
+        
+    
+    
+            circle_marker_771713237178cc52811140539bc0b5ef.bindTooltip(
+                `<div>
+                     Parque das Nações · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_30c239da8d135d4268259fc31da07f24 = L.circleMarker(
+                [-23.638709756962555, -46.546913053953844],
+                {"bubblingMouseEvents": true, "color": "#0b0b0b", "dashArray": "4", "dashOffset": null, "fill": true, "fillColor": "#3f8be6ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.41640786499874, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_415a857bfd55e59974dd5b696583b17c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_73859dd433d88c05232af03d2489be8e = $(`<div id="html_73859dd433d88c05232af03d2489be8e" style="width: 100.0%; height: 100.0%;"><b>Utinga</b> · Santo André<br>Entregas: 125<br>Atraso: 7,2%<br>Tempo mediano: 15 min<br>Distância média: 4,4 km<br><i>Posição simulada (não encontrada no OSM)</i></div>`)[0];
+                popup_415a857bfd55e59974dd5b696583b17c.setContent(html_73859dd433d88c05232af03d2489be8e);
+            
+        
+
+        circle_marker_30c239da8d135d4268259fc31da07f24.bindPopup(popup_415a857bfd55e59974dd5b696583b17c)
+        ;
+
+        
+    
+    
+            circle_marker_30c239da8d135d4268259fc31da07f24.bindTooltip(
+                `<div>
+                     Utinga · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b561091e8cca6147ed3db80884d9526d = L.circleMarker(
+                [-23.6714442, -46.5268318],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a4c9f4ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.045639892863548, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_7253bb59d801567af45c414602e4253f = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_27b249ea902cee195fa21a5824ca496c = $(`<div id="html_27b249ea902cee195fa21a5824ca496c" style="width: 100.0%; height: 100.0%;"><b>Vila Assunção</b> · Santo André<br>Entregas: 137<br>Atraso: 2,2%<br>Tempo mediano: 14 min<br>Distância média: 4,1 km</div>`)[0];
+                popup_7253bb59d801567af45c414602e4253f.setContent(html_27b249ea902cee195fa21a5824ca496c);
+            
+        
+
+        circle_marker_b561091e8cca6147ed3db80884d9526d.bindPopup(popup_7253bb59d801567af45c414602e4253f)
+        ;
+
+        
+    
+    
+            circle_marker_b561091e8cca6147ed3db80884d9526d.bindTooltip(
+                `<div>
+                     Vila Assunção · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5246c69594eb7a2f97d2bc379e14aef6 = L.circleMarker(
+                [-23.6594319, -46.534077],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b1d1f7ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.9427400463467, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_0324f06f390504c8bdea403f0fd3d77c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_d0d58902e9ef0d680f9157006c561dc3 = $(`<div id="html_d0d58902e9ef0d680f9157006c561dc3" style="width: 100.0%; height: 100.0%;"><b>Vila Bastos</b> · Santo André<br>Entregas: 135<br>Atraso: 1,5%<br>Tempo mediano: 14 min<br>Distância média: 3,9 km</div>`)[0];
+                popup_0324f06f390504c8bdea403f0fd3d77c.setContent(html_d0d58902e9ef0d680f9157006c561dc3);
+            
+        
+
+        circle_marker_5246c69594eb7a2f97d2bc379e14aef6.bindPopup(popup_0324f06f390504c8bdea403f0fd3d77c)
+        ;
+
+        
+    
+    
+            circle_marker_5246c69594eb7a2f97d2bc379e14aef6.bindTooltip(
+                `<div>
+                     Vila Bastos · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6e791c4737a1175315e4e577f9574016 = L.circleMarker(
+                [-23.6573063, -46.5435419],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3987e5ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.54922678357857, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_6e381d2e776466220e1c6d5e9c2eb6d4 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_8f9df84f42a3e43c00948e83b0950319 = $(`<div id="html_8f9df84f42a3e43c00948e83b0950319" style="width: 100.0%; height: 100.0%;"><b>Vila Guiomar</b> · Santo André<br>Entregas: 147<br>Atraso: 7,5%<br>Tempo mediano: 13 min<br>Distância média: 3,9 km</div>`)[0];
+                popup_6e381d2e776466220e1c6d5e9c2eb6d4.setContent(html_8f9df84f42a3e43c00948e83b0950319);
+            
+        
+
+        circle_marker_6e791c4737a1175315e4e577f9574016.bindPopup(popup_6e381d2e776466220e1c6d5e9c2eb6d4)
+        ;
+
+        
+    
+    
+            circle_marker_6e791c4737a1175315e4e577f9574016.bindTooltip(
+                `<div>
+                     Vila Guiomar · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_68db3eaf7c6b03422f7ec7f7f361ce92 = L.circleMarker(
+                [-23.7013102, -46.5069917],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#134686ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.699606293110037, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_ff6898635fd0c36bd845330b18b8cfe3 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f79808a71ad86e2e334424d35b2685ca = $(`<div id="html_f79808a71ad86e2e334424d35b2685ca" style="width: 100.0%; height: 100.0%;"><b>Vila Luzita</b> · Santo André<br>Entregas: 112<br>Atraso: 13,4%<br>Tempo mediano: 24 min<br>Distância média: 7,6 km</div>`)[0];
+                popup_ff6898635fd0c36bd845330b18b8cfe3.setContent(html_f79808a71ad86e2e334424d35b2685ca);
+            
+        
+
+        circle_marker_68db3eaf7c6b03422f7ec7f7f361ce92.bindPopup(popup_ff6898635fd0c36bd845330b18b8cfe3)
+        ;
+
+        
+    
+    
+            circle_marker_68db3eaf7c6b03422f7ec7f7f361ce92.bindTooltip(
+                `<div>
+                     Vila Luzita · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_402fef9107d856e70d413131f697219b = L.circleMarker(
+                [-23.7191358, -46.5692486],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1a58a5ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.096808149364875, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_0f7c641e0e82bc102c788b33d0045175 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a60af4e95608c716127b1f4498a70204 = $(`<div id="html_a60af4e95608c716127b1f4498a70204" style="width: 100.0%; height: 100.0%;"><b>Assunção</b> · São Bernardo do Campo<br>Entregas: 138<br>Atraso: 11,6%<br>Tempo mediano: 17 min<br>Distância média: 5,8 km</div>`)[0];
+                popup_0f7c641e0e82bc102c788b33d0045175.setContent(html_a60af4e95608c716127b1f4498a70204);
+            
+        
+
+        circle_marker_402fef9107d856e70d413131f697219b.bindPopup(popup_0f7c641e0e82bc102c788b33d0045175)
+        ;
+
+        
+    
+    
+            circle_marker_402fef9107d856e70d413131f697219b.bindTooltip(
+                `<div>
+                     Assunção · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_31b7ffa74c9f03e7a304c8bb756f0da7 = L.circleMarker(
+                [-23.6909846, -46.5406792],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#599beaff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.9427400463467, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_974756cfaa5cf620beb531cb6b6ff11f = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f93c98c469d0018857889e8056a74950 = $(`<div id="html_f93c98c469d0018857889e8056a74950" style="width: 100.0%; height: 100.0%;"><b>Baeta Neves</b> · São Bernardo do Campo<br>Entregas: 135<br>Atraso: 5,9%<br>Tempo mediano: 17 min<br>Distância média: 5,3 km</div>`)[0];
+                popup_974756cfaa5cf620beb531cb6b6ff11f.setContent(html_f93c98c469d0018857889e8056a74950);
+            
+        
+
+        circle_marker_31b7ffa74c9f03e7a304c8bb756f0da7.bindPopup(popup_974756cfaa5cf620beb531cb6b6ff11f)
+        ;
+
+        
+    
+    
+            circle_marker_31b7ffa74c9f03e7a304c8bb756f0da7.bindTooltip(
+                `<div>
+                     Baeta Neves · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8e7dfae6e94af8ad6b54eff647fbadb5 = L.circleMarker(
+                [-23.7096982, -46.5504348],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5599e9ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.73462777071152, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_e1d44427c927f4352cf8999a4671042c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_c952f404385d973d4446f8efd25401e7 = $(`<div id="html_c952f404385d973d4446f8efd25401e7" style="width: 100.0%; height: 100.0%;"><b>Centro</b> · São Bernardo do Campo<br>Entregas: 131<br>Atraso: 6,1%<br>Tempo mediano: 15 min<br>Distância média: 4,8 km</div>`)[0];
+                popup_e1d44427c927f4352cf8999a4671042c.setContent(html_c952f404385d973d4446f8efd25401e7);
+            
+        
+
+        circle_marker_8e7dfae6e94af8ad6b54eff647fbadb5.bindPopup(popup_e1d44427c927f4352cf8999a4671042c)
+        ;
+
+        
+    
+    
+            circle_marker_8e7dfae6e94af8ad6b54eff647fbadb5.bindTooltip(
+                `<div>
+                     Centro · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2c929ebb1d428ba5e0e18e544f1c4e08 = L.circleMarker(
+                [-23.7395442, -46.5558968],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3683e1ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.576450198781714, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_971e3b6ad536a565e6850693333165a4 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_0dbe4d36b2fb2803b23e566f13dc7cd0 = $(`<div id="html_0dbe4d36b2fb2803b23e566f13dc7cd0" style="width: 100.0%; height: 100.0%;"><b>Demarchi</b> · São Bernardo do Campo<br>Entregas: 128<br>Atraso: 7,8%<br>Tempo mediano: 20 min<br>Distância média: 6,8 km</div>`)[0];
+                popup_971e3b6ad536a565e6850693333165a4.setContent(html_0dbe4d36b2fb2803b23e566f13dc7cd0);
+            
+        
+
+        circle_marker_2c929ebb1d428ba5e0e18e544f1c4e08.bindPopup(popup_971e3b6ad536a565e6850693333165a4)
+        ;
+
+        
+    
+    
+            circle_marker_2c929ebb1d428ba5e0e18e544f1c4e08.bindTooltip(
+                `<div>
+                     Demarchi · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a5c01030901a13d8d9806d2f6bfe3791 = L.circleMarker(
+                [-23.7264215, -46.5423279],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3683e1ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.576450198781714, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_485dd976a3fb9e437bde6deb20a1e244 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_da3d114111f5a0e938a9bc82c46d58a8 = $(`<div id="html_da3d114111f5a0e938a9bc82c46d58a8" style="width: 100.0%; height: 100.0%;"><b>Ferrazópolis</b> · São Bernardo do Campo<br>Entregas: 128<br>Atraso: 7,8%<br>Tempo mediano: 16 min<br>Distância média: 5,8 km</div>`)[0];
+                popup_485dd976a3fb9e437bde6deb20a1e244.setContent(html_da3d114111f5a0e938a9bc82c46d58a8);
+            
+        
+
+        circle_marker_a5c01030901a13d8d9806d2f6bfe3791.bindPopup(popup_485dd976a3fb9e437bde6deb20a1e244)
+        ;
+
+        
+    
+    
+            circle_marker_a5c01030901a13d8d9806d2f6bfe3791.bindTooltip(
+                `<div>
+                     Ferrazópolis · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5d20c6ff489f544d93092beee32b6872 = L.circleMarker(
+                [-23.691446, -46.5560154],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#80b3efff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.64786673888044, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_cc10c9db93a9317fa3a552d89d388d40 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a456912bafd27e24bf636c7de7ded0a0 = $(`<div id="html_a456912bafd27e24bf636c7de7ded0a0" style="width: 100.0%; height: 100.0%;"><b>Jardim do Mar</b> · São Bernardo do Campo<br>Entregas: 149<br>Atraso: 4,0%<br>Tempo mediano: 16 min<br>Distância média: 4,4 km</div>`)[0];
+                popup_cc10c9db93a9317fa3a552d89d388d40.setContent(html_a456912bafd27e24bf636c7de7ded0a0);
+            
+        
+
+        circle_marker_5d20c6ff489f544d93092beee32b6872.bindPopup(popup_cc10c9db93a9317fa3a552d89d388d40)
+        ;
+
+        
+    
+    
+            circle_marker_5d20c6ff489f544d93092beee32b6872.bindTooltip(
+                `<div>
+                     Jardim do Mar · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7b54cd9c01b5a94f7af897a8f54e6cd1 = L.circleMarker(
+                [-23.7080705, -46.5396292],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2a71c8ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.979984591670362, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_42179052d587dbd13b519c98a97ae2cb = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ac85569cea18ad7536e8c3fd7bcbe102 = $(`<div id="html_ac85569cea18ad7536e8c3fd7bcbe102" style="width: 100.0%; height: 100.0%;"><b>Nova Petrópolis</b> · São Bernardo do Campo<br>Entregas: 117<br>Atraso: 9,4%<br>Tempo mediano: 16 min<br>Distância média: 4,7 km</div>`)[0];
+                popup_42179052d587dbd13b519c98a97ae2cb.setContent(html_ac85569cea18ad7536e8c3fd7bcbe102);
+            
+        
+
+        circle_marker_7b54cd9c01b5a94f7af897a8f54e6cd1.bindPopup(popup_42179052d587dbd13b519c98a97ae2cb)
+        ;
+
+        
+    
+    
+            circle_marker_7b54cd9c01b5a94f7af897a8f54e6cd1.bindTooltip(
+                `<div>
+                     Nova Petrópolis · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ee1e75b00a6867df48a484bebade63b9 = L.circleMarker(
+                [-23.6666703, -46.5857703],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#164d93ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.89100428334827, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_ee1020f54cd680c3b0b6c3cc7915500c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ed8230e9cb1491c0cb6a489f388545de = $(`<div id="html_ed8230e9cb1491c0cb6a489f388545de" style="width: 100.0%; height: 100.0%;"><b>Paulicéia</b> · São Bernardo do Campo<br>Entregas: 134<br>Atraso: 12,7%<br>Tempo mediano: 22 min<br>Distância média: 6,9 km</div>`)[0];
+                popup_ee1020f54cd680c3b0b6c3cc7915500c.setContent(html_ed8230e9cb1491c0cb6a489f388545de);
+            
+        
+
+        circle_marker_ee1e75b00a6867df48a484bebade63b9.bindPopup(popup_ee1020f54cd680c3b0b6c3cc7915500c)
+        ;
+
+        
+    
+    
+            circle_marker_ee1e75b00a6867df48a484bebade63b9.bindTooltip(
+                `<div>
+                     Paulicéia · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6daf6666e087242d9d1509a2afded74e = L.circleMarker(
+                [-23.6998572, -46.5697732],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e76cfff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.3086438076913, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_3424fe7e78211f3bb3ac060c943d1269 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_15034d328bea8bb7d96f6e093a0a3dca = $(`<div id="html_15034d328bea8bb7d96f6e093a0a3dca" style="width: 100.0%; height: 100.0%;"><b>Planalto</b> · São Bernardo do Campo<br>Entregas: 123<br>Atraso: 8,9%<br>Tempo mediano: 17 min<br>Distância média: 4,7 km</div>`)[0];
+                popup_3424fe7e78211f3bb3ac060c943d1269.setContent(html_15034d328bea8bb7d96f6e093a0a3dca);
+            
+        
+
+        circle_marker_6daf6666e087242d9d1509a2afded74e.bindPopup(popup_3424fe7e78211f3bb3ac060c943d1269)
+        ;
+
+        
+    
+    
+            circle_marker_6daf6666e087242d9d1509a2afded74e.bindTooltip(
+                `<div>
+                     Planalto · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a9c445983ec318a3a8e3327539eb9a96 = L.circleMarker(
+                [-23.6590824, -46.5682591],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#14488aff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.79459360712554, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_b617475f744c6f21a0bbfbc83c0a23e8 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_bd9f4868039adf9f5418926fd36becc6 = $(`<div id="html_bd9f4868039adf9f5418926fd36becc6" style="width: 100.0%; height: 100.0%;"><b>Rudge Ramos</b> · São Bernardo do Campo<br>Entregas: 152<br>Atraso: 13,2%<br>Tempo mediano: 21 min<br>Distância média: 6,9 km</div>`)[0];
+                popup_b617475f744c6f21a0bbfbc83c0a23e8.setContent(html_bd9f4868039adf9f5418926fd36becc6);
+            
+        
+
+        circle_marker_a9c445983ec318a3a8e3327539eb9a96.bindPopup(popup_b617475f744c6f21a0bbfbc83c0a23e8)
+        ;
+
+        
+    
+    
+            circle_marker_a9c445983ec318a3a8e3327539eb9a96.bindTooltip(
+                `<div>
+                     Rudge Ramos · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e2295b87d0a7f182206671a344424961 = L.circleMarker(
+                [-23.6203476, -46.5504286],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#70a9edff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.448809448814172, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_de8d93c25212d69a37353df21f849a65 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_d35e1480c6edd3dfd0f327433ca8bcc3 = $(`<div id="html_d35e1480c6edd3dfd0f327433ca8bcc3" style="width: 100.0%; height: 100.0%;"><b>Barcelona</b> · São Caetano do Sul<br>Entregas: 62<br>Atraso: 4,8%<br>Tempo mediano: 16 min<br>Distância média: 4,9 km</div>`)[0];
+                popup_de8d93c25212d69a37353df21f849a65.setContent(html_d35e1480c6edd3dfd0f327433ca8bcc3);
+            
+        
+
+        circle_marker_e2295b87d0a7f182206671a344424961.bindPopup(popup_de8d93c25212d69a37353df21f849a65)
+        ;
+
+        
+    
+    
+            circle_marker_e2295b87d0a7f182206671a344424961.bindTooltip(
+                `<div>
+                     Barcelona · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_053cf5a88a345d423293e9f1f3cc3c30 = L.circleMarker(
+                [-23.6116088, -46.5747725],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#317cd6ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.21737489744233, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_e772776222f0dd3d127348f70bd04a1b = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_7888c25b22d1cdde9977956baa774a78 = $(`<div id="html_7888c25b22d1cdde9977956baa774a78" style="width: 100.0%; height: 100.0%;"><b>Centro</b> · São Caetano do Sul<br>Entregas: 59<br>Atraso: 8,5%<br>Tempo mediano: 14 min<br>Distância média: 4,9 km</div>`)[0];
+                popup_e772776222f0dd3d127348f70bd04a1b.setContent(html_7888c25b22d1cdde9977956baa774a78);
+            
+        
+
+        circle_marker_053cf5a88a345d423293e9f1f3cc3c30.bindPopup(popup_e772776222f0dd3d127348f70bd04a1b)
+        ;
+
+        
+    
+    
+            circle_marker_053cf5a88a345d423293e9f1f3cc3c30.bindTooltip(
+                `<div>
+                     Centro · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6b6f03a64b6badf844c5606f22c091f1 = L.circleMarker(
+                [-23.6247901, -46.5756006],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#76acedff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.748846085563153, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_98b17d669ebb4aa9bc8d16a7934c4a60 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_3de9cb4660d2bf5cf3bade687e19783a = $(`<div id="html_3de9cb4660d2bf5cf3bade687e19783a" style="width: 100.0%; height: 100.0%;"><b>Cerâmica</b> · São Caetano do Sul<br>Entregas: 66<br>Atraso: 4,5%<br>Tempo mediano: 13 min<br>Distância média: 4,0 km</div>`)[0];
+                popup_98b17d669ebb4aa9bc8d16a7934c4a60.setContent(html_3de9cb4660d2bf5cf3bade687e19783a);
+            
+        
+
+        circle_marker_6b6f03a64b6badf844c5606f22c091f1.bindPopup(popup_98b17d669ebb4aa9bc8d16a7934c4a60)
+        ;
+
+        
+    
+    
+            circle_marker_6b6f03a64b6badf844c5606f22c091f1.bindTooltip(
+                `<div>
+                     Cerâmica · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_96732a002aa7bb036e5e515c623d51a5 = L.circleMarker(
+                [-23.6080066, -46.5684379],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aecff6ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.372299611087984, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_ad195de030293b9c6c1f010d040f69e2 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_1a79565e5057500dfcb8ad7605f6d5bc = $(`<div id="html_1a79565e5057500dfcb8ad7605f6d5bc" style="width: 100.0%; height: 100.0%;"><b>Fundação</b> · São Caetano do Sul<br>Entregas: 61<br>Atraso: 1,6%<br>Tempo mediano: 15 min<br>Distância média: 5,5 km</div>`)[0];
+                popup_ad195de030293b9c6c1f010d040f69e2.setContent(html_1a79565e5057500dfcb8ad7605f6d5bc);
+            
+        
+
+        circle_marker_96732a002aa7bb036e5e515c623d51a5.bindPopup(popup_ad195de030293b9c6c1f010d040f69e2)
+        ;
+
+        
+    
+    
+            circle_marker_96732a002aa7bb036e5e515c623d51a5.bindTooltip(
+                `<div>
+                     Fundação · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_35cc273ab0e7cf1ab8c55c4b8fead995 = L.circleMarker(
+                [-23.6419711, -46.5660749],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5a9beaff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.56971411425142, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_43896f1e451164c5d8c30189de325811 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_dc31b96aa6c43c7608646a233330a2e2 = $(`<div id="html_dc31b96aa6c43c7608646a233330a2e2" style="width: 100.0%; height: 100.0%;"><b>Nova Gerty</b> · São Caetano do Sul<br>Entregas: 51<br>Atraso: 5,9%<br>Tempo mediano: 15 min<br>Distância média: 4,6 km</div>`)[0];
+                popup_43896f1e451164c5d8c30189de325811.setContent(html_dc31b96aa6c43c7608646a233330a2e2);
+            
+        
+
+        circle_marker_35cc273ab0e7cf1ab8c55c4b8fead995.bindPopup(popup_43896f1e451164c5d8c30189de325811)
+        ;
+
+        
+    
+    
+            circle_marker_35cc273ab0e7cf1ab8c55c4b8fead995.bindTooltip(
+                `<div>
+                     Nova Gerty · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0d3d420475ec65838572bb096e0540d6 = L.circleMarker(
+                [-23.6274802, -46.560125],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#62a0ebff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.252804494381037, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_4b30299ae2d33c829679b3d64710624e = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_fd1476d72297a1a84994287495bb3b77 = $(`<div id="html_fd1476d72297a1a84994287495bb3b77" style="width: 100.0%; height: 100.0%;"><b>Olímpico</b> · São Caetano do Sul<br>Entregas: 73<br>Atraso: 5,5%<br>Tempo mediano: 13 min<br>Distância média: 3,5 km</div>`)[0];
+                popup_4b30299ae2d33c829679b3d64710624e.setContent(html_fd1476d72297a1a84994287495bb3b77);
+            
+        
+
+        circle_marker_0d3d420475ec65838572bb096e0540d6.bindPopup(popup_4b30299ae2d33c829679b3d64710624e)
+        ;
+
+        
+    
+    
+            circle_marker_0d3d420475ec65838572bb096e0540d6.bindTooltip(
+                `<div>
+                     Olímpico · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_44d78cfa5b8732900a357e42c22af903 = L.circleMarker(
+                [-23.629222, -46.566808],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9fc6f4ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.8664621657649, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_735d54dfb1d36ea8c1734267a332660d = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_3233c5466cc6ff4054cbc842dc500da3 = $(`<div id="html_3233c5466cc6ff4054cbc842dc500da3" style="width: 100.0%; height: 100.0%;"><b>Oswaldo Cruz</b> · São Caetano do Sul<br>Entregas: 82<br>Atraso: 2,4%<br>Tempo mediano: 13 min<br>Distância média: 4,2 km</div>`)[0];
+                popup_735d54dfb1d36ea8c1734267a332660d.setContent(html_3233c5466cc6ff4054cbc842dc500da3);
+            
+        
+
+        circle_marker_44d78cfa5b8732900a357e42c22af903.bindPopup(popup_735d54dfb1d36ea8c1734267a332660d)
+        ;
+
+        
+    
+    
+            circle_marker_44d78cfa5b8732900a357e42c22af903.bindTooltip(
+                `<div>
+                     Oswaldo Cruz · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_44f1dc3970ecce405aeb19616f5ea3e4 = L.circleMarker(
+                [-23.6341722, -46.5532583],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91bdf1ff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.524704719832526, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_7113bbf3cfee16b7b36391162b666e53 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a970ddd82ab257a5edcbb63deb49d07c = $(`<div id="html_a970ddd82ab257a5edcbb63deb49d07c" style="width: 100.0%; height: 100.0%;"><b>Santa Maria</b> · São Caetano do Sul<br>Entregas: 63<br>Atraso: 3,2%<br>Tempo mediano: 14 min<br>Distância média: 4,3 km</div>`)[0];
+                popup_7113bbf3cfee16b7b36391162b666e53.setContent(html_a970ddd82ab257a5edcbb63deb49d07c);
+            
+        
+
+        circle_marker_44f1dc3970ecce405aeb19616f5ea3e4.bindPopup(popup_7113bbf3cfee16b7b36391162b666e53)
+        ;
+
+        
+    
+    
+            circle_marker_44f1dc3970ecce405aeb19616f5ea3e4.bindTooltip(
+                `<div>
+                     Santa Maria · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_87968c5735dd445ea7064734755d1e36 = L.circleMarker(
+                [-23.6169544, -46.5633542],
+                {"bubblingMouseEvents": true, "color": "#ffffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5a9beaff", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.56971411425142, "stroke": true, "weight": 1.5}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+        var popup_f06f822eb654fe970fc15fb7b324697e = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_fe579179da2a8f5c96e5827a744df185 = $(`<div id="html_fe579179da2a8f5c96e5827a744df185" style="width: 100.0%; height: 100.0%;"><b>Santa Paula</b> · São Caetano do Sul<br>Entregas: 51<br>Atraso: 5,9%<br>Tempo mediano: 12 min<br>Distância média: 4,5 km</div>`)[0];
+                popup_f06f822eb654fe970fc15fb7b324697e.setContent(html_fe579179da2a8f5c96e5827a744df185);
+            
+        
+
+        circle_marker_87968c5735dd445ea7064734755d1e36.bindPopup(popup_f06f822eb654fe970fc15fb7b324697e)
+        ;
+
+        
+    
+    
+            circle_marker_87968c5735dd445ea7064734755d1e36.bindTooltip(
+                `<div>
+                     Santa Paula · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_cb9ebac6d70a4440dcf52196a4b85b7c = L.marker(
+                [-23.6579186, -46.5264427],
+                {
+}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+            var icon_a2c2b733437b0c2563cc51dba343d106 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_cb9ebac6d70a4440dcf52196a4b85b7c.bindTooltip(
+                `<div>
+                     Hub (Centro) · Santo André
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cb9ebac6d70a4440dcf52196a4b85b7c.setIcon(icon_a2c2b733437b0c2563cc51dba343d106);
+            
+    
+            var marker_fce99732ea013ac8410250f542e720d5 = L.marker(
+                [-23.7096982, -46.5504348],
+                {
+}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+            var icon_35bdd46cc02c24ba0704adda0affdab9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_fce99732ea013ac8410250f542e720d5.bindTooltip(
+                `<div>
+                     Hub (Centro) · São Bernardo do Campo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fce99732ea013ac8410250f542e720d5.setIcon(icon_35bdd46cc02c24ba0704adda0affdab9);
+            
+    
+            var marker_21966c32826b16c1ce11fba0f3d2fd38 = L.marker(
+                [-23.6116088, -46.5747725],
+                {
+}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+            var icon_ee8a5caca857cdefc9ecabb878c65985 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_21966c32826b16c1ce11fba0f3d2fd38.bindTooltip(
+                `<div>
+                     Hub (Centro) · São Caetano do Sul
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_21966c32826b16c1ce11fba0f3d2fd38.setIcon(icon_ee8a5caca857cdefc9ecabb878c65985);
+            
+    
+            var marker_62940474ce22a338fcdee28b06083a8e = L.marker(
+                [-23.685978, -46.6230373],
+                {
+}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+            var icon_cec6de7e409ddd8b9430305101f92c35 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_62940474ce22a338fcdee28b06083a8e.bindTooltip(
+                `<div>
+                     Hub (Centro) · Diadema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_62940474ce22a338fcdee28b06083a8e.setIcon(icon_cec6de7e409ddd8b9430305101f92c35);
+            
+    
+            var marker_f2abf7589d146e70e65caf566f53ffeb = L.marker(
+                [-23.6666495, -46.4616871],
+                {
+}
+            ).addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+        
+    
+            var icon_de948e249b58efabbe3d7bd217d89099 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_f2abf7589d146e70e65caf566f53ffeb.bindTooltip(
+                `<div>
+                     Hub (Centro) · Mauá
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f2abf7589d146e70e65caf566f53ffeb.setIcon(icon_de948e249b58efabbe3d7bd217d89099);
+            
+    
+    var color_map_3c25f95908953b265266bbf22e626476 = {};
+
+    
+    color_map_3c25f95908953b265266bbf22e626476.color = d3.scale.threshold()
+              .domain([0.0, 0.03006012024048096, 0.06012024048096192, 0.09018036072144289, 0.12024048096192384, 0.15030060120240482, 0.18036072144288579, 0.21042084168336672, 0.24048096192384769, 0.27054108216432865, 0.30060120240480964, 0.3306613226452906, 0.36072144288577157, 0.3907815631262525, 0.42084168336673344, 0.45090180360721444, 0.48096192384769537, 0.5110220440881763, 0.5410821643286573, 0.5711422845691383, 0.6012024048096193, 0.6312625250501002, 0.6613226452905812, 0.6913827655310621, 0.7214428857715431, 0.751503006012024, 0.781563126252505, 0.811623246492986, 0.8416833667334669, 0.8717434869739479, 0.9018036072144289, 0.9318637274549099, 0.9619238476953907, 0.9919839679358717, 1.0220440881763526, 1.0521042084168337, 1.0821643286573146, 1.1122244488977955, 1.1422845691382766, 1.1723446893787575, 1.2024048096192386, 1.2324649298597194, 1.2625250501002003, 1.2925851703406814, 1.3226452905811623, 1.3527054108216432, 1.3827655310621243, 1.4128256513026052, 1.4428857715430863, 1.4729458917835672, 1.503006012024048, 1.5330661322645291, 1.56312625250501, 1.593186372745491, 1.623246492985972, 1.653306613226453, 1.6833667334669338, 1.7134268537074149, 1.7434869739478958, 1.7735470941883769, 1.8036072144288577, 1.8336673346693386, 1.8637274549098197, 1.8937875751503006, 1.9238476953907815, 1.9539078156312626, 1.9839679358717435, 2.0140280561122244, 2.0440881763527052, 2.0741482965931866, 2.1042084168336674, 2.1342685370741483, 2.164328657314629, 2.19438877755511, 2.224448897795591, 2.2545090180360723, 2.284569138276553, 2.314629258517034, 2.344689378757515, 2.374749498997996, 2.404809619238477, 2.434869739478958, 2.464929859719439, 2.49498997995992, 2.5250501002004007, 2.555110220440882, 2.585170340681363, 2.6152304609218437, 2.6452905811623246, 2.6753507014028055, 2.7054108216432864, 2.7354709418837677, 2.7655310621242486, 2.7955911823647295, 2.8256513026052104, 2.8557114228456912, 2.8857715430861726, 2.9158316633266534, 2.9458917835671343, 2.975951903807615, 3.006012024048096, 3.036072144288577, 3.0661322645290583, 3.096192384769539, 3.12625250501002, 3.156312625250501, 3.186372745490982, 3.216432865731463, 3.246492985971944, 3.276553106212425, 3.306613226452906, 3.3366733466933867, 3.3667334669338675, 3.396793587174349, 3.4268537074148298, 3.4569138276553106, 3.4869739478957915, 3.5170340681362724, 3.5470941883767537, 3.5771543086172346, 3.6072144288577155, 3.6372745490981964, 3.6673346693386772, 3.697394789579158, 3.7274549098196395, 3.7575150300601203, 3.787575150300601, 3.817635270541082, 3.847695390781563, 3.8777555110220443, 3.907815631262525, 3.937875751503006, 3.967935871743487, 3.997995991983968, 4.028056112224449, 4.05811623246493, 4.0881763527054105, 4.118236472945892, 4.148296593186373, 4.1783567134268536, 4.208416833667335, 4.238476953907815, 4.268537074148297, 4.298597194388778, 4.328657314629258, 4.35871743486974, 4.38877755511022, 4.4188376753507015, 4.448897795591182, 4.478957915831663, 4.509018036072145, 4.539078156312625, 4.569138276553106, 4.599198396793587, 4.629258517034068, 4.659318637274549, 4.68937875751503, 4.719438877755511, 4.749498997995992, 4.779559118236473, 4.809619238476954, 4.839679358717435, 4.869739478957916, 4.8997995991983965, 4.929859719438878, 4.959919839679359, 4.98997995991984, 5.020040080160321, 5.050100200400801, 5.080160320641283, 5.110220440881764, 5.140280561122244, 5.170340681362726, 5.200400801603206, 5.2304609218436875, 5.260521042084168, 5.290581162324649, 5.320641282565131, 5.350701402805611, 5.380761523046092, 5.410821643286573, 5.440881763527054, 5.470941883767535, 5.501002004008016, 5.531062124248497, 5.561122244488978, 5.591182364729459, 5.62124248496994, 5.651302605210421, 5.681362725450902, 5.7114228456913825, 5.741482965931864, 5.771543086172345, 5.801603206412826, 5.831663326653307, 5.861723446893787, 5.891783567134269, 5.921843687374749, 5.95190380761523, 5.981963927855712, 6.012024048096192, 6.0420841683366735, 6.072144288577154, 6.102204408817635, 6.132264529058117, 6.162324649298597, 6.192384769539078, 6.222444889779559, 6.25250501002004, 6.282565130260521, 6.312625250501002, 6.342685370741483, 6.372745490981964, 6.402805611222445, 6.432865731462926, 6.462925851703407, 6.492985971943888, 6.5230460921843685, 6.55310621242485, 6.58316633266533, 6.613226452905812, 6.643286573146293, 6.673346693386773, 6.703406813627255, 6.733466933867735, 6.763527054108216, 6.793587174348698, 6.823647294589178, 6.8537074148296595, 6.88376753507014, 6.913827655310621, 6.943887775551103, 6.973947895791583, 7.004008016032064, 7.034068136272545, 7.064128256513026, 7.094188376753507, 7.124248496993988, 7.154308617234469, 7.18436873747495, 7.214428857715431, 7.244488977955911, 7.274549098196393, 7.304609218436874, 7.3346693386773545, 7.364729458917836, 7.394789579158316, 7.424849699398798, 7.454909819639279, 7.484969939879759, 7.515030060120241, 7.545090180360721, 7.575150300601202, 7.605210420841684, 7.635270541082164, 7.6653306613226455, 7.695390781563126, 7.725450901803607, 7.755511022044089, 7.785571142284569, 7.81563126252505, 7.845691382765531, 7.875751503006012, 7.905811623246493, 7.935871743486974, 7.965931863727455, 7.995991983967936, 8.026052104208416, 8.056112224448897, 8.086172344689379, 8.11623246492986, 8.146292585170341, 8.176352705410821, 8.206412825651302, 8.236472945891784, 8.266533066132265, 8.296593186372746, 8.326653306613226, 8.356713426853707, 8.386773547094188, 8.41683366733467, 8.446893787575151, 8.47695390781563, 8.507014028056112, 8.537074148296593, 8.567134268537075, 8.597194388777556, 8.627254509018035, 8.657314629258517, 8.687374749498998, 8.71743486973948, 8.74749498997996, 8.77755511022044, 8.807615230460922, 8.837675350701403, 8.867735470941884, 8.897795591182364, 8.927855711422845, 8.957915831663327, 8.987975951903808, 9.01803607214429, 9.048096192384769, 9.07815631262525, 9.108216432865731, 9.138276553106213, 9.168336673346694, 9.198396793587174, 9.228456913827655, 9.258517034068136, 9.288577154308618, 9.318637274549099, 9.348697394789578, 9.37875751503006, 9.408817635270541, 9.438877755511022, 9.468937875751504, 9.498997995991983, 9.529058116232465, 9.559118236472946, 9.589178356713427, 9.619238476953909, 9.649298597194388, 9.67935871743487, 9.70941883767535, 9.739478957915832, 9.769539078156313, 9.799599198396793, 9.829659318637274, 9.859719438877756, 9.889779559118237, 9.919839679358718, 9.949899799599198, 9.97995991983968, 10.01002004008016, 10.040080160320642, 10.070140280561123, 10.100200400801603, 10.130260521042084, 10.160320641282565, 10.190380761523047, 10.220440881763528, 10.250501002004007, 10.280561122244489, 10.31062124248497, 10.340681362725451, 10.370741482965931, 10.400801603206412, 10.430861723446894, 10.460921843687375, 10.490981963927856, 10.521042084168336, 10.551102204408817, 10.581162324649299, 10.61122244488978, 10.641282565130261, 10.67134268537074, 10.701402805611222, 10.731462925851703, 10.761523046092185, 10.791583166332666, 10.821643286573146, 10.851703406813627, 10.881763527054108, 10.91182364729459, 10.94188376753507, 10.97194388777555, 11.002004008016032, 11.032064128256513, 11.062124248496994, 11.092184368737476, 11.122244488977955, 11.152304609218437, 11.182364729458918, 11.2124248496994, 11.24248496993988, 11.27254509018036, 11.302605210420841, 11.332665330661323, 11.362725450901804, 11.392785571142285, 11.422845691382765, 11.452905811623246, 11.482965931863728, 11.513026052104209, 11.54308617234469, 11.57314629258517, 11.603206412825651, 11.633266533066132, 11.663326653306614, 11.693386773547093, 11.723446893787575, 11.753507014028056, 11.783567134268537, 11.813627254509019, 11.843687374749498, 11.87374749498998, 11.90380761523046, 11.933867735470942, 11.963927855711423, 11.993987975951903, 12.024048096192384, 12.054108216432866, 12.084168336673347, 12.114228456913828, 12.144288577154308, 12.17434869739479, 12.20440881763527, 12.234468937875752, 12.264529058116233, 12.294589178356713, 12.324649298597194, 12.354709418837675, 12.384769539078157, 12.414829659318638, 12.444889779559118, 12.474949899799599, 12.50501002004008, 12.535070140280562, 12.565130260521043, 12.595190380761522, 12.625250501002004, 12.655310621242485, 12.685370741482966, 12.715430861723448, 12.745490981963927, 12.775551102204409, 12.80561122244489, 12.835671342685371, 12.865731462925853, 12.895791583166332, 12.925851703406813, 12.955911823647295, 12.985971943887776, 13.016032064128256, 13.046092184368737, 13.076152304609218, 13.1062124248497, 13.136272545090181, 13.16633266533066, 13.196392785571142, 13.226452905811623, 13.256513026052104, 13.286573146292586, 13.316633266533065, 13.346693386773547, 13.376753507014028, 13.40681362725451, 13.43687374749499, 13.46693386773547, 13.496993987975952, 13.527054108216433, 13.557114228456914, 13.587174348697395, 13.617234468937875, 13.647294589178356, 13.677354709418838, 13.707414829659319, 13.7374749498998, 13.76753507014028, 13.797595190380761, 13.827655310621243, 13.857715430861724, 13.887775551102205, 13.917835671342685, 13.947895791583166, 13.977955911823647, 14.008016032064129, 14.03807615230461, 14.06813627254509, 14.098196392785571, 14.128256513026052, 14.158316633266534, 14.188376753507015, 14.218436873747494, 14.248496993987976, 14.278557114228457, 14.308617234468938, 14.338677354709418, 14.3687374749499, 14.39879759519038, 14.428857715430862, 14.458917835671343, 14.488977955911823, 14.519038076152304, 14.549098196392785, 14.579158316633267, 14.609218436873748, 14.639278557114228, 14.669338677354709, 14.69939879759519, 14.729458917835672, 14.759519038076153, 14.789579158316633, 14.819639278557114, 14.849699398797595, 14.879759519038076, 14.909819639278558, 14.939879759519037, 14.969939879759519, 15.0])
+              .range(['#cde2fbff', '#cde2fbff', '#cce2fbff', '#cce1fbff', '#cbe1fbff', '#cae1fbff', '#cae0fbff', '#c9e0fbff', '#c9e0fbff', '#c8dffbff', '#c8dffbff', '#c7defaff', '#c6defaff', '#c6defaff', '#c5ddfaff', '#c5ddfaff', '#c4ddfaff', '#c4dcfaff', '#c3dcfaff', '#c2dcfaff', '#c2dbfaff', '#c1dbf9ff', '#c1dbf9ff', '#c0daf9ff', '#c0daf9ff', '#bfdaf9ff', '#bed9f9ff', '#bed9f9ff', '#bdd8f9ff', '#bdd8f9ff', '#bcd8f9ff', '#bcd7f8ff', '#bbd7f8ff', '#bad7f8ff', '#bad6f8ff', '#b9d6f8ff', '#b9d6f8ff', '#b8d5f8ff', '#b8d5f8ff', '#b7d5f8ff', '#b6d4f8ff', '#b6d4f8ff', '#b5d4f7ff', '#b5d3f7ff', '#b4d3f7ff', '#b4d2f7ff', '#b3d2f7ff', '#b2d2f7ff', '#b2d1f7ff', '#b1d1f7ff', '#b1d1f7ff', '#b0d0f7ff', '#b0d0f6ff', '#afd0f6ff', '#aecff6ff', '#aecff6ff', '#adcff6ff', '#adcef6ff', '#accef6ff', '#accdf6ff', '#abcdf6ff', '#aacdf6ff', '#aaccf5ff', '#a9ccf5ff', '#a9ccf5ff', '#a8cbf5ff', '#a8cbf5ff', '#a7cbf5ff', '#a6caf5ff', '#a6caf5ff', '#a5caf5ff', '#a5c9f5ff', '#a4c9f5ff', '#a4c9f4ff', '#a3c8f4ff', '#a2c8f4ff', '#a2c7f4ff', '#a1c7f4ff', '#a1c7f4ff', '#a0c6f4ff', '#a0c6f4ff', '#9fc6f4ff', '#9ec5f4ff', '#9ec5f3ff', '#9dc5f3ff', '#9dc4f3ff', '#9cc4f3ff', '#9cc4f3ff', '#9bc3f3ff', '#9ac3f3ff', '#9ac3f3ff', '#99c2f3ff', '#99c2f3ff', '#98c1f3ff', '#98c1f2ff', '#97c1f2ff', '#96c0f2ff', '#96c0f2ff', '#95c0f2ff', '#95bff2ff', '#94bff2ff', '#94bff2ff', '#93bef2ff', '#92bef2ff', '#92bef1ff', '#91bdf1ff', '#91bdf1ff', '#90bcf1ff', '#90bcf1ff', '#8fbcf1ff', '#8ebbf1ff', '#8ebbf1ff', '#8dbbf1ff', '#8dbaf1ff', '#8cbaf0ff', '#8cbaf0ff', '#8bb9f0ff', '#8ab9f0ff', '#8ab9f0ff', '#89b8f0ff', '#89b8f0ff', '#88b8f0ff', '#88b7f0ff', '#87b7f0ff', '#86b6f0ff', '#86b6efff', '#85b6efff', '#85b5efff', '#84b5efff', '#83b5efff', '#83b4efff', '#82b4efff', '#82b3efff', '#81b3efff', '#80b3efff', '#80b2efff', '#7fb2efff', '#7eb2eeff', '#7eb1eeff', '#7db1eeff', '#7db0eeff', '#7cb0eeff', '#7bb0eeff', '#7bafeeff', '#7aafeeff', '#79afeeff', '#79aeeeff', '#78aeeeff', '#78adeeff', '#77adedff', '#76adedff', '#76acedff', '#75acedff', '#75acedff', '#74abedff', '#73abedff', '#73aaedff', '#72aaedff', '#71aaedff', '#71a9edff', '#70a9edff', '#70a9edff', '#6fa8ecff', '#6ea8ecff', '#6ea7ecff', '#6da7ecff', '#6ca7ecff', '#6ca6ecff', '#6ba6ecff', '#6ba5ecff', '#6aa5ecff', '#69a5ecff', '#69a4ecff', '#68a4ecff', '#68a4ebff', '#67a3ebff', '#66a3ebff', '#66a2ebff', '#65a2ebff', '#64a2ebff', '#64a1ebff', '#63a1ebff', '#63a1ebff', '#62a0ebff', '#61a0ebff', '#619febff', '#609febff', '#5f9feaff', '#5f9eeaff', '#5e9eeaff', '#5e9eeaff', '#5d9deaff', '#5c9deaff', '#5c9ceaff', '#5b9ceaff', '#5a9ceaff', '#5a9beaff', '#599beaff', '#599beaff', '#589ae9ff', '#579ae9ff', '#5799e9ff', '#5699e9ff', '#5699e9ff', '#5598e9ff', '#5498e9ff', '#5497e9ff', '#5397e9ff', '#5297e9ff', '#5296e9ff', '#5196e9ff', '#5196e8ff', '#5095e8ff', '#4f95e8ff', '#4f94e8ff', '#4e94e8ff', '#4d94e8ff', '#4d93e8ff', '#4c93e8ff', '#4c93e8ff', '#4b92e8ff', '#4a92e8ff', '#4a91e8ff', '#4991e8ff', '#4991e7ff', '#4890e7ff', '#4790e7ff', '#4790e7ff', '#468fe7ff', '#458fe7ff', '#458ee7ff', '#448ee7ff', '#448ee7ff', '#438de7ff', '#428de7ff', '#428de7ff', '#418ce6ff', '#408ce6ff', '#408be6ff', '#3f8be6ff', '#3f8be6ff', '#3e8ae6ff', '#3d8ae6ff', '#3d89e6ff', '#3c89e6ff', '#3c89e6ff', '#3b88e6ff', '#3a88e6ff', '#3a88e6ff', '#3987e5ff', '#3987e5ff', '#3887e5ff', '#3886e4ff', '#3886e4ff', '#3885e3ff', '#3785e3ff', '#3785e2ff', '#3784e2ff', '#3784e1ff', '#3784e1ff', '#3683e0ff', '#3683e0ff', '#3683e0ff', '#3682dfff', '#3582dfff', '#3582deff', '#3581deff', '#3581ddff', '#3481ddff', '#3480dcff', '#3480dcff', '#3480dbff', '#337fdbff', '#337fdaff', '#337fdaff', '#337ed9ff', '#337ed9ff', '#327ed9ff', '#327dd8ff', '#327dd8ff', '#327cd7ff', '#317cd7ff', '#317cd6ff', '#317bd6ff', '#317bd5ff', '#307bd5ff', '#307ad4ff', '#307ad4ff', '#307ad3ff', '#3079d3ff', '#2f79d2ff', '#2f79d2ff', '#2f78d2ff', '#2f78d1ff', '#2e78d1ff', '#2e77d0ff', '#2e77d0ff', '#2e77cfff', '#2d76cfff', '#2d76ceff', '#2d76ceff', '#2d75cdff', '#2c75cdff', '#2c75ccff', '#2c74ccff', '#2c74cbff', '#2c73cbff', '#2b73cbff', '#2b73caff', '#2b72caff', '#2b72c9ff', '#2a72c9ff', '#2a71c8ff', '#2a71c8ff', '#2a71c7ff', '#2970c7ff', '#2970c6ff', '#2970c6ff', '#296fc5ff', '#296fc5ff', '#286fc4ff', '#286ec4ff', '#286ec4ff', '#286ec3ff', '#276dc3ff', '#276dc2ff', '#276dc2ff', '#276cc1ff', '#266cc1ff', '#266cc0ff', '#266bc0ff', '#266bbfff', '#256abfff', '#256abeff', '#256abeff', '#2569bdff', '#2569bdff', '#2469bdff', '#2468bcff', '#2468bcff', '#2468bbff', '#2367bbff', '#2367baff', '#2367baff', '#2366b9ff', '#2266b9ff', '#2266b8ff', '#2265b8ff', '#2265b7ff', '#2265b7ff', '#2164b6ff', '#2164b6ff', '#2164b6ff', '#2163b5ff', '#2063b5ff', '#2063b4ff', '#2062b4ff', '#2062b3ff', '#1f61b3ff', '#1f61b2ff', '#1f61b2ff', '#1f60b1ff', '#1e60b1ff', '#1e60b0ff', '#1e5fb0ff', '#1e5fafff', '#1e5fafff', '#1d5eafff', '#1d5eaeff', '#1d5eaeff', '#1d5dadff', '#1c5dadff', '#1c5dacff', '#1c5cacff', '#1c5cabff', '#1c5cabff', '#1b5baaff', '#1b5baaff', '#1b5ba9ff', '#1b5aa9ff', '#1b5aa8ff', '#1b5aa8ff', '#1b59a7ff', '#1b59a7ff', '#1a59a6ff', '#1a59a6ff', '#1a58a5ff', '#1a58a5ff', '#1a58a4ff', '#1a57a4ff', '#1a57a3ff', '#1a57a3ff', '#1956a2ff', '#1956a2ff', '#1956a1ff', '#1956a0ff', '#1955a0ff', '#19559fff', '#19559fff', '#19549eff', '#19549eff', '#18549dff', '#18539dff', '#18539cff', '#18539cff', '#18529bff', '#18529bff', '#18529aff', '#18529aff', '#175199ff', '#175199ff', '#175198ff', '#175098ff', '#175097ff', '#175097ff', '#174f96ff', '#174f96ff', '#164f95ff', '#164e95ff', '#164e94ff', '#164e94ff', '#164e93ff', '#164d93ff', '#164d92ff', '#164d92ff', '#154c91ff', '#154c91ff', '#154c90ff', '#154b8fff', '#154b8fff', '#154b8eff', '#154b8eff', '#154a8dff', '#154a8dff', '#144a8cff', '#14498cff', '#14498bff', '#14498bff', '#14488aff', '#14488aff', '#144889ff', '#144789ff', '#134788ff', '#134788ff', '#134787ff', '#134687ff', '#134686ff', '#134686ff', '#134585ff', '#134585ff', '#124584ff', '#124484ff', '#124483ff', '#124483ff', '#124382ff', '#124382ff', '#124381ff', '#124381ff', '#124280ff', '#114280ff', '#11427fff', '#11417eff', '#11417eff', '#11417dff', '#11407dff', '#11407cff', '#11407cff', '#103f7bff', '#103f7bff', '#103f7aff', '#103f7aff', '#103e79ff', '#103e79ff', '#103e78ff', '#103d78ff', '#0f3d77ff', '#0f3d77ff', '#0f3c76ff', '#0f3c76ff', '#0f3c75ff', '#0f3c75ff', '#0f3b74ff', '#0f3b74ff', '#0e3b73ff', '#0e3a73ff', '#0e3a72ff', '#0e3a72ff', '#0e3971ff', '#0e3971ff', '#0e3970ff', '#0e3870ff', '#0e386fff', '#0d386fff', '#0d386eff', '#0d376dff', '#0d376dff', '#0d376cff', '#0d366cff', '#0d366bff', '#0d366bff']);
+    
+
+    color_map_3c25f95908953b265266bbf22e626476.x = d3.scale.linear()
+              .domain([0.0, 15.0])
+              .range([0, 450 - 50]);
+
+    color_map_3c25f95908953b265266bbf22e626476.legend = L.control({position: 'topright'});
+    color_map_3c25f95908953b265266bbf22e626476.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_3c25f95908953b265266bbf22e626476.legend.addTo(map_b1abc9019ea20d81f2d48899b1f4ecb2);
+
+    color_map_3c25f95908953b265266bbf22e626476.xAxis = d3.svg.axis()
+        .scale(color_map_3c25f95908953b265266bbf22e626476.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([0.0, 3.75, 7.5, 11.25, 15.0]);
+
+    color_map_3c25f95908953b265266bbf22e626476.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_3c25f95908953b265266bbf22e626476.g = color_map_3c25f95908953b265266bbf22e626476.svg.append("g")
+        .attr("class", "key")
+        .attr("fill", "black")
+        .attr("transform", "translate(25,16)");
+
+    color_map_3c25f95908953b265266bbf22e626476.g.selectAll("rect")
+        .data(color_map_3c25f95908953b265266bbf22e626476.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_3c25f95908953b265266bbf22e626476.x(color_map_3c25f95908953b265266bbf22e626476.color.domain()[i - 1]) : color_map_3c25f95908953b265266bbf22e626476.x.range()[0],
+            x1: i < color_map_3c25f95908953b265266bbf22e626476.color.domain().length ? color_map_3c25f95908953b265266bbf22e626476.x(color_map_3c25f95908953b265266bbf22e626476.color.domain()[i]) : color_map_3c25f95908953b265266bbf22e626476.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_3c25f95908953b265266bbf22e626476.g.call(color_map_3c25f95908953b265266bbf22e626476.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .attr("fill", "black")
+        .text("Taxa de atraso no bairro de destino (%)");
+</script>
+</html>

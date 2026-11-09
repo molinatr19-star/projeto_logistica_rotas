@@ -3,11 +3,11 @@
 Projeto de portfólio de análise de dados da Molina sobre logística: rotas inteligentes, desempenho de entregas, tempos de trânsito e eficiência operacional.
 
 ## Status atual
-- Fase: análise de desempenho concluída (2026-11-09). Feitos: gerador de dados simulados (`ingestao/simulacao.py`), notebooks 01 (exploração), 02 (limpeza; gera `data/interim` e `data/processed` em Parquet) e 03 (desempenho; gera `reports/figures/`), KPIs em `metricas/kpis.py`, limpeza em `limpeza/tratamento.py`, gráficos estáticos em `visualizacao/graficos.py` (matplotlib, paleta e cores fixas por trajeto). Próximo: geocodificação dos bairros e roteirização.
+- Fase: análise de desempenho concluída (2026-11-09). Feitos: gerador de dados simulados (`ingestao/simulacao.py`), notebooks 01 (exploração), 02 (limpeza; gera `data/interim` e `data/processed` em Parquet) e 03 (desempenho; gera `reports/figures/`), KPIs em `metricas/kpis.py`, limpeza em `limpeza/tratamento.py`, gráficos estáticos em `visualizacao/graficos.py` (matplotlib, paleta e cores fixas por trajeto). Notebooks 04 (mapas; bairros geocodificados via Nominatim, cache em `data/external/`) e 05 (roteirização com OR-Tools, `roteirizacao/rotas.py` e `lotes.py`). `ortools==9.14.6206` fixado (9.15 bloqueada pelo Smart App Control).
 - Dashboard Streamlit em `app.py` (tema escuro em `.streamlit/config.toml`); usa a base limpa (`limpar_entregas`) e os KPIs de `metricas/kpis.py`.
 - Testes: `.venv\Scripts\python.exe -m pytest` (configuração em `pyproject.toml`). Rodar após mexer em `src/`.
 - Ambiente Windows com Smart App Control ligado: versões muito recentes de pacotes com DLL podem ser bloqueadas ("política de Controle de Aplicativo"). Por isso `pyarrow==25.0.1` está fixado.
-- Fonte de dados atual: entregas de moto simuladas no ABC paulista + Mauá (bairros e vias reais; posições, pedidos e tempos simulados), em `data/raw/dados_entregas_simulados.csv`. Bairro "Centro" existe nas 5 cidades: analisar sempre bairro + cidade.
+- Fonte de dados atual: entregas de moto simuladas no ABC paulista + Mauá (bairros e vias reais; 43/45 bairros com coordenada real do OSM; pedidos e tempos simulados), em `data/raw/dados_entregas_simulados.csv`. Bairro "Centro" existe nas 5 cidades: analisar sempre bairro + cidade.
 - Comandos do `.venv` via `python -m` (ex.: `.venv\Scripts\python.exe -m streamlit run app.py`): os `.exe` de atalho são bloqueados pelo Smart App Control.
 - Não implementar lógica, baixar dados nem rodar scripts sem pedido explícito da Molina.
 

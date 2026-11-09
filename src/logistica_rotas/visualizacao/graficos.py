@@ -198,7 +198,7 @@ def otd_cidade_trajeto(df: pd.DataFrame) -> Figure:
     ax.set_xticks(range(0, 101, 25))
     ax.xaxis.set_major_formatter(PercentFormatter(decimals=0))
     ax.legend(loc="lower right", ncols=2, bbox_to_anchor=(1, 1.0))
-    _titulo(fig, "Mauá e Diadema têm o pior OTD nas entregas vindas de outras cidades",
+    _titulo(fig, "Mauá, a cidade mais afastada, tem o pior OTD nas entregas vindas de fora",
             "OTD por cidade de destino e tipo de trajeto")
     entre = df[mascara_concluidas(df) & (df["trajeto"] == "entre cidades")]
     dist = entre.groupby("cidade_destino", observed=True)["distancia_km"].mean().sort_values(ascending=False)
@@ -272,3 +272,120 @@ def salvar_figura(fig: Figure, nome: str, pasta: Path = PASTA_FIGURAS) -> Path:
     caminho = pasta / f"{nome}.png"
     fig.savefig(caminho)
     return caminho
+
+
+# ---------------------------------------------------------------------------
+# Mapas estáticos e roteirização (notebooks 04 e 05)
+# ---------------------------------------------------------------------------
+CORES_VIAGENS = ["#2a78d6", "#eb6834", "#1baf7a", "#e87ba4", "#6250d6", "#008300", "#eda100", "#e34948"]
+VERMELHO_STATUS = "#d03b3b"
+ASPECTO_LAT = 1 / np.cos(np.radians(-23.67))  # corrige a distorção lon x lat na latitude do ABC
+
+
+def _formatar(valor: float, casas: int = 1) -> str:
+    return f"{valor:.{casas}f}".replace(".", ",")
+
+
+def mapa_bairros_estatico(tabela: pd.DataFrame) -> Figure:
+    """Bairros de destino em lat/lon: cor = taxa de atraso, tamanho = entregas. Sem mapa de fundo."""
+    fig, ax = _nova_figura(9.0, 7.2)
+    fig.subplots_adjust(top=0.86, left=0.04, right=0.93, bottom=0.08)
+    ax.grid(False)
+    for lado in ("bottom", "left"):
+        ax.spines[lado].set_visible(False)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    cmap = LinearSegmentedColormap.from_list("azul", RAMPA_AZUL)
+    reais = tabela[tabela["fonte_coordenada"] == "osm"]
+    simuladas = tabela[tabela["fonte_coordenada"] != "osm"]
+    pontos = ax.scatter(reais["lon"], reais["lat"], s=reais["entregas"] * 2.2, c=reais["atraso_pct"], cmap=cmap,
+                        vmin=0, vmax=15, edgecolor=SUPERFICIE, linewidth=1.5, zorder=3)
+    ax.scatter(simuladas["lon"], simuladas["lat"], s=simuladas["entregas"] * 2.2, facecolor="none",
+               edgecolor=TINTA_SEC, linewidth=1.2, linestyle="--", zorder=3, label="posição simulada")
+    hubs = tabela[tabela["bairro"] == "Centro"]
+    ax.scatter(hubs["lon"], hubs["lat"], marker="s", s=28, color=TINTA, zorder=4, label="hub (Centro)")
+    for linha in hubs.itertuples(index=False):
+        ax.annotate(linha.cidade, (linha.lon, linha.lat), xytext=(0, 12), textcoords="offset points",
+                    ha="center", fontsize=10, fontweight="bold", color=TINTA, zorder=5)
+    ax.set_aspect(ASPECTO_LAT)
+    barra = fig.colorbar(pontos, ax=ax, fraction=0.03, pad=0.01)
+    barra.outline.set_visible(False)
+    barra.ax.yaxis.set_major_formatter(PercentFormatter(decimals=0))
+    barra.ax.tick_params(length=0, labelsize=9)
+    barra.set_label("Taxa de atraso", color=TINTA_SEC)
+    ax.legend(loc="lower left", fontsize=9)
+    correlacao = tabela[["atraso_pct", "distancia_media_km"]].corr().iloc[0, 1]
+    _titulo(fig, "Bairros com entregas mais longas tendem a atrasar mais",
+            f"Bairros de destino: cor = taxa de atraso, tamanho = entregas. "
+            f"Correlação com a distância média: {_formatar(correlacao, 2)}")
+    _nota(fig, "Coordenadas: OpenStreetMap/Nominatim (© colaboradores do OSM). Cada bairro tem de "
+               f"{tabela['entregas'].min()} a {tabela['entregas'].max()} entregas: diferenças pequenas são ruído.")
+    return fig
+
+
+def comparacao_metodos(resumo: pd.DataFrame, destaque: str = "OR-Tools com prazo") -> Figure:
+    """Dois painéis (mesma ordem de métodos): economia de km e % de entregas no prazo."""
+    aplicar_estilo()
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.4), sharey=True)
+    fig.subplots_adjust(top=0.76, left=0.2, right=0.97, bottom=0.12, wspace=0.12)
+    metodos = list(resumo.index)
+    cores = [AZUL if m == destaque else "#c3c2b7" for m in metodos]
+    pos = np.arange(len(metodos))
+    for ax, coluna, titulo_painel in [(ax1, "economia_km_pct", "Economia de km vs individual"),
+                                      (ax2, "no_prazo_pct", "Entregas no prazo")]:
+        valores = resumo[coluna].to_numpy()
+        barras = ax.barh(pos, valores, height=0.6, color=cores, edgecolor=SUPERFICIE, lw=1.5)
+        ax.bar_label(barras, labels=[f"{_formatar(v)}%" for v in valores], padding=4, fontsize=10, color=TINTA)
+        ax.set_title(titulo_painel, loc="left", fontsize=11, color=TINTA_SEC, pad=8)
+        if coluna == "no_prazo_pct":  # percentual de um total: eixo de 0 a 100%
+            ax.set_xlim(0, 115)
+            ax.set_xticks(range(0, 101, 25))
+        else:
+            ax.set_xlim(0, max(valores.max() * 1.25, 10))
+        ax.xaxis.set_major_formatter(PercentFormatter(decimals=0))
+        ax.grid(axis="y", visible=False)
+        ax.grid(axis="x", visible=True)
+        ax.tick_params(axis="y", length=0)
+    ax1.set_yticks(pos, [m[0].upper() + m[1:] for m in metodos], fontsize=10.5)
+    ax1.invert_yaxis()
+    d = resumo.loc[destaque]
+    _titulo(fig, f"Com o prazo no modelo, a roteirização economiza {_formatar(d['economia_km_pct'], 0)}% dos km "
+                 f"e mantém {_formatar(d['no_prazo_pct'], 0)}% no prazo",
+            f"{int(resumo['entregas'].iloc[0]):,} entregas em lotes de 2 h a partir do hub de cada cidade; "
+            "até 4 pedidos por viagem".replace(",", "."))
+    _nota(fig, "Tempo de chegada determinístico (velocidade média + 3 min por parada): compare os métodos entre si, "
+               "não com o OTD real.")
+    return fig
+
+
+def exemplo_rotas(hub: tuple[float, float], lats: np.ndarray, lons: np.ndarray, prazos: np.ndarray,
+                  resultados: list, titulo: str) -> Figure:
+    """Um painel por método: rotas do mesmo lote; paradas fora do prazo com anel vermelho."""
+    aplicar_estilo()
+    fig, eixos = plt.subplots(1, len(resultados), figsize=(3.6 * len(resultados), 5.6))
+    fig.subplots_adjust(top=0.78, left=0.03, right=0.97, bottom=0.03, wspace=0.15)
+    for ax, r in zip(eixos, resultados):
+        ax.grid(False)
+        for lado in ("bottom", "left"):
+            ax.spines[lado].set_visible(False)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        atrasado = r.chegada_min > prazos
+        for k, rota in enumerate(r.rotas):
+            cor = CORES_VIAGENS[k % len(CORES_VIAGENS)]
+            xs = [hub[1]] + [lons[i - 1] for i in rota] + [hub[1]]
+            ys = [hub[0]] + [lats[i - 1] for i in rota] + [hub[0]]
+            ax.plot(xs, ys, color=cor, lw=2, zorder=2)
+            ax.scatter([lons[i - 1] for i in rota], [lats[i - 1] for i in rota], s=60, color=cor,
+                       edgecolor=SUPERFICIE, linewidth=1.5, zorder=3)
+        ax.scatter(lons[atrasado], lats[atrasado], s=190, facecolor="none", edgecolor=VERMELHO_STATUS,
+                   linewidth=2, zorder=4)
+        ax.scatter([hub[1]], [hub[0]], marker="s", s=70, color=TINTA, zorder=5)
+        ax.set_aspect(ASPECTO_LAT, adjustable="datalim")
+        ax.margins(0.12)
+        no_prazo = int((~atrasado).sum())
+        ax.set_title(f"{r.metodo[0].upper() + r.metodo[1:]}\n{_formatar(r.km_total)} km · {len(r.rotas)} viagens · "
+                     f"{no_prazo}/{len(prazos)} no prazo", fontsize=10.5, color=TINTA, loc="left")
+    _titulo(fig, titulo, "Mesmo lote nos três métodos. Quadrado = hub; cada cor = uma viagem; "
+                         "anel vermelho = entrega fora do prazo")
+    return fig

@@ -12,6 +12,8 @@ data/interim/*
 data/processed/*
 data/external/*
 !data/**/.gitkeep
+# Cache de geocodificação: pequeno, público (OSM) e caro de refazer
+!data/external/bairros_geocodificados.csv
 
 # Segredos
 .env

@@ -3,9 +3,12 @@
 O que é real e o que é simulado:
 - Real: municípios (Santo André, São Bernardo do Campo, São Caetano do Sul,
   Diadema e Mauá), nomes de bairros e nomes de vias de cada município.
-- Aproximado: coordenada do centro de cada município (WGS84).
-- Simulado: posição de cada bairro dentro do município (sorteada com seed fixa,
-  NÃO geocodificada), pedidos, horários, tempos, valores e status.
+- Geocodificado: posição de cada bairro, do OpenStreetMap/Nominatim
+  (cache em data/external/bairros_geocodificados.csv; ver geocodificacao.py).
+  Bairros sem resultado válido usam posição simulada (coluna fonte_coordenada).
+- Aproximado: coordenada do centro de cada município (só para o fallback).
+- Simulado: ponto exato da coleta/entrega dentro do bairro (±JITTER_KM),
+  pedidos, horários, tempos, valores e status.
 - A rua do endereço é sorteada entre vias reais do mesmo município do destino;
   a combinação rua x bairro não foi verificada e pode não existir.
 
@@ -52,7 +55,7 @@ CIDADES = {
     "São Caetano do Sul": {
         "lat": -23.6229, "lon": -46.5548, "raio_km": 1.8, "peso": 0.11,
         "bairros": ["Centro", "Santa Paula", "Barcelona", "Santa Maria", "Cerâmica",
-                    "Fundação", "Osvaldo Cruz", "Olímpico", "Nova Gerty"],
+                    "Fundação", "Oswaldo Cruz", "Olímpico", "Nova Gerty"],
         "ruas": ["Rua Manoel Coelho", "Avenida Goiás", "Rua Santa Catarina",
                  "Avenida Presidente Kennedy", "Rua Alegre", "Rua Baraldi",
                  "Avenida Senador Roberto Simonsen", "Rua Amazonas"],
@@ -80,9 +83,20 @@ JITTER_KM = 0.6            # ponto exato da coleta/entrega dentro do bairro
 KM_POR_GRAU_LAT = 111.32
 
 
+def _coordenadas_reais() -> dict[tuple[str, str], tuple[float, float]]:
+    """(cidade, bairro) -> (lat, lon) do cache de geocodificação, só resultados válidos."""
+    caminho = RAIZ_PROJETO / "data" / "external" / "bairros_geocodificados.csv"
+    if not caminho.exists():
+        return {}
+    cache = pd.read_csv(caminho, encoding="utf-8")
+    cache = cache[cache["valido"].astype(bool)]
+    return {(c, b): (la, lo) for c, b, la, lo in cache[["cidade", "bairro", "lat", "lon"]].itertuples(index=False)}
+
+
 def _montar_bairros() -> pd.DataFrame:
-    """Tabela de bairros com posição simulada (lat/lon) em volta do centro da cidade."""
+    """Tabela de bairros: coordenada real (OSM) quando houver; senão, posição simulada perto do centro."""
     rng = np.random.default_rng(SEED_GEOGRAFIA)
+    reais = _coordenadas_reais()
     linhas = []
     for cidade, info in CIDADES.items():
         km_por_grau_lon = KM_POR_GRAU_LAT * np.cos(np.radians(info["lat"]))
@@ -93,11 +107,16 @@ def _montar_bairros() -> pd.DataFrame:
                 raio = info["raio_km"] * np.sqrt(rng.uniform(0.15, 1.0))
                 angulo = rng.uniform(0, 2 * np.pi)
                 dx, dy = raio * np.cos(angulo), raio * np.sin(angulo)
+            lat, lon = info["lat"] + dy / KM_POR_GRAU_LAT, info["lon"] + dx / km_por_grau_lon
+            fonte = "simulada"
+            if (cidade, bairro) in reais:
+                (lat, lon), fonte = reais[(cidade, bairro)], "osm"
             linhas.append({
                 "cidade": cidade,
                 "bairro": bairro,
-                "lat": info["lat"] + dy / KM_POR_GRAU_LAT,
-                "lon": info["lon"] + dx / km_por_grau_lon,
+                "lat": lat,
+                "lon": lon,
+                "fonte_coordenada": fonte,
                 "peso_origem": PESO_CENTRO_ORIGEM if bairro == "Centro" else 1.0,
             })
     return pd.DataFrame(linhas)
@@ -176,8 +195,8 @@ def _sortear_destinos(rng: np.random.Generator, idx_origem: np.ndarray) -> np.nd
     return destino
 
 
-def _calcular_distancia_km(rng: np.random.Generator, idx_o: np.ndarray, idx_d: np.ndarray) -> np.ndarray:
-    """Distância pelas ruas: haversine entre pontos sorteados nos bairros x tortuosidade."""
+def _sortear_pontos(rng: np.random.Generator, idx_o: np.ndarray, idx_d: np.ndarray) -> tuple[np.ndarray, ...]:
+    """Ponto exato (lat, lon) da coleta e da entrega: centro do bairro ± JITTER_KM."""
     lat, lon = BAIRROS["lat"].to_numpy(), BAIRROS["lon"].to_numpy()
     jitter_grau = JITTER_KM / KM_POR_GRAU_LAT
     n = len(idx_o)
@@ -185,7 +204,7 @@ def _calcular_distancia_km(rng: np.random.Generator, idx_o: np.ndarray, idx_d: n
     lon_o = lon[idx_o] + rng.uniform(-jitter_grau, jitter_grau, n)
     lat_d = lat[idx_d] + rng.uniform(-jitter_grau, jitter_grau, n)
     lon_d = lon[idx_d] + rng.uniform(-jitter_grau, jitter_grau, n)
-    return np.maximum(haversine_km(lat_o, lon_o, lat_d, lon_d) * FATOR_TORTUOSIDADE, 0.5)
+    return lat_o, lon_o, lat_d, lon_d
 
 
 def _sortear_enderecos(rng: np.random.Generator, cidades_destino: np.ndarray) -> list[str]:
@@ -208,7 +227,9 @@ def gerar_entregas(n: int = 5000, inicio: str = "2026-09-01", dias: int = 61, ra
     idx_o = _sortear_origens(rng, n)
     idx_d = _sortear_destinos(rng, idx_o)
     origem, destino = BAIRROS.iloc[idx_o], BAIRROS.iloc[idx_d]
-    distancia_km = _calcular_distancia_km(rng, idx_o, idx_d)
+    lat_o, lon_o, lat_d, lon_d = _sortear_pontos(rng, idx_o, idx_d)
+    # Distância pelas ruas: haversine entre os pontos x tortuosidade.
+    distancia_km = np.maximum(haversine_km(lat_o, lon_o, lat_d, lon_d) * FATOR_TORTUOSIDADE, 0.5)
     enderecos = _sortear_enderecos(rng, destino["cidade"].to_numpy())
 
     # Tempo = deslocamento + tempo fixo de coleta/entrega, com variação aleatória.
@@ -241,6 +262,10 @@ def gerar_entregas(n: int = 5000, inicio: str = "2026-09-01", dias: int = 61, ra
             "cidade_destino": destino["cidade"].to_numpy(),
             "bairro_destino": destino["bairro"].to_numpy(),
             "endereco_destino": enderecos,
+            "lat_origem": lat_o.round(6),
+            "lon_origem": lon_o.round(6),
+            "lat_destino": lat_d.round(6),
+            "lon_destino": lon_d.round(6),
             "distancia_km": distancia_km.round(2),
             "horario_pico": np.where(horario_pico, "sim", "nao"),
             "tempo_transito_min": np.round(tempo_transito_min, 1),
