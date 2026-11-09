@@ -6,7 +6,14 @@ import numpy as np
 import pandas as pd
 
 from logistica_rotas.ingestao.simulacao import BAIRROS, RAIZ_PROJETO
-from logistica_rotas.roteirizacao.rotas import CAPACIDADE_PADRAO, comparar_metodos
+from logistica_rotas.roteirizacao.rotas import (
+    CAPACIDADE_PADRAO,
+    PENALIDADE_KM_POR_MIN,
+    matriz_distancias_km,
+    rotas_individuais,
+    rotas_ortools,
+    rotas_vizinho_mais_proximo,
+)
 
 CAMINHO_RESULTADOS = RAIZ_PROJETO / "data" / "processed" / "resultados_rotas.parquet"
 JANELA_PADRAO = "2h"
@@ -20,9 +27,13 @@ def hubs_por_cidade() -> pd.DataFrame:
 
 
 def montar_lotes(df: pd.DataFrame, janela: str = JANELA_PADRAO, minimo: int = MINIMO_POR_LOTE) -> pd.DataFrame:
-    """Pedidos não cancelados com coluna `lote` (cidade de origem + janela de tempo); só lotes >= minimo."""
+    """Pedidos não cancelados com coluna `lote` (cidade de origem + janela de tempo); só lotes >= minimo.
+
+    `espera_min`: tempo entre o pedido e o fim da janela (momento do despacho do lote).
+    """
     base = df[df["status"] != "cancelado"].copy()
     base["janela"] = base["data_hora_pedido"].dt.floor(janela)
+    base["espera_min"] = (base["janela"] + pd.Timedelta(janela) - base["data_hora_pedido"]).dt.total_seconds() / 60
     base["cidade_hub"] = base["cidade_origem"].astype(str)
     tamanho = base.groupby(["cidade_hub", "janela"])["id_pedido"].transform("size")
     base = base[tamanho >= minimo]
@@ -30,26 +41,67 @@ def montar_lotes(df: pd.DataFrame, janela: str = JANELA_PADRAO, minimo: int = MI
     return base
 
 
+def amostrar_lotes(lotes: pd.DataFrame, n: int, random_state: int = 42) -> pd.DataFrame:
+    """Sorteia `n` lotes inteiros (para análises de sensibilidade mais rápidas)."""
+    ids = lotes["lote"].drop_duplicates()
+    escolhidos = ids.sample(n=min(n, len(ids)), random_state=random_state)
+    return lotes[lotes["lote"].isin(escolhidos)]
+
+
 def lote_em_pico(lote: pd.DataFrame) -> bool:
     """O lote usa a velocidade de pico se a maioria dos pedidos foi feita no pico."""
     return bool((lote["horario_pico"] == "sim").mean() >= 0.5)
 
 
-def avaliar_lote(lote: pd.DataFrame, hubs: pd.DataFrame, capacidade: int = CAPACIDADE_PADRAO) -> list:
-    """Roda os 4 métodos em um lote; devolve a lista de ResultadoRotas."""
+def avaliar_lote(
+    lote: pd.DataFrame,
+    hubs: pd.DataFrame,
+    capacidade: int = CAPACIDADE_PADRAO,
+    penalidade_km_por_min: float = PENALIDADE_KM_POR_MIN,
+    considerar_espera: bool = False,
+    metodos: list[str] | None = None,
+) -> list:
+    """Roda os métodos em um lote; devolve a lista de ResultadoRotas (com o prazo usado em cada um).
+
+    Com `considerar_espera`, os métodos em lote descontam do prazo a espera até o despacho;
+    o método individual sai na hora (sem espera).
+    """
+    metodos = metodos or ORDEM_METODOS
     hub = tuple(hubs.loc[lote["cidade_hub"].iloc[0]])
-    return comparar_metodos(hub, lote["lat_destino"].to_numpy(), lote["lon_destino"].to_numpy(),
-                            lote["prazo_prometido_min"].to_numpy(), lote_em_pico(lote), capacidade)
+    matriz = matriz_distancias_km(np.r_[hub[0], lote["lat_destino"].to_numpy()],
+                                  np.r_[hub[1], lote["lon_destino"].to_numpy()])
+    pico = lote_em_pico(lote)
+    prazo = lote["prazo_prometido_min"].to_numpy(dtype=float)
+    prazo_lote = prazo - lote["espera_min"].to_numpy() if considerar_espera else prazo
+
+    resultados = []
+    for metodo in metodos:
+        if metodo == "individual":
+            r, prazo_ref = rotas_individuais(matriz, pico), prazo
+        elif metodo == "vizinho mais próximo":
+            r, prazo_ref = rotas_vizinho_mais_proximo(matriz, pico, capacidade), prazo_lote
+        elif metodo == "OR-Tools":
+            r, prazo_ref = rotas_ortools(matriz, pico, capacidade), prazo_lote
+        elif metodo == "OR-Tools com prazo":
+            r = rotas_ortools(matriz, pico, capacidade, prazos_min=prazo_lote,
+                              penalidade_km_por_min=penalidade_km_por_min)
+            prazo_ref = prazo_lote
+        else:
+            raise ValueError(f"Método desconhecido: {metodo}")
+        r.prazos_min = prazo_ref
+        resultados.append(r)
+    return resultados
 
 
-def avaliar_lotes(lotes: pd.DataFrame, capacidade: int = CAPACIDADE_PADRAO) -> pd.DataFrame:
+def avaliar_lotes(lotes: pd.DataFrame, capacidade: int = CAPACIDADE_PADRAO,
+                  penalidade_km_por_min: float = PENALIDADE_KM_POR_MIN, considerar_espera: bool = False,
+                  metodos: list[str] | None = None) -> pd.DataFrame:
     """Uma linha por lote x método: km, viagens, entregas no prazo e minutos de atraso."""
     hubs = hubs_por_cidade()
     linhas = []
     for id_lote, lote in lotes.groupby("lote"):
-        prazos = lote["prazo_prometido_min"].to_numpy()
-        for r in avaliar_lote(lote, hubs, capacidade):
-            atraso = np.clip(r.chegada_min - prazos, 0, None)
+        for r in avaliar_lote(lote, hubs, capacidade, penalidade_km_por_min, considerar_espera, metodos):
+            atraso = np.clip(r.chegada_min - r.prazos_min, 0, None)
             linhas.append({
                 "lote": id_lote, "cidade_hub": lote["cidade_hub"].iloc[0], "janela": lote["janela"].iloc[0],
                 "entregas": len(lote), "pico": lote_em_pico(lote), "metodo": r.metodo,

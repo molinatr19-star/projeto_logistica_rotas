@@ -389,3 +389,97 @@ def exemplo_rotas(hub: tuple[float, float], lats: np.ndarray, lons: np.ndarray, 
     _titulo(fig, titulo, "Mesmo lote nos três métodos. Quadrado = hub; cada cor = uma viagem; "
                          "anel vermelho = entrega fora do prazo")
     return fig
+
+
+# ---------------------------------------------------------------------------
+# Sensibilidade da roteirização (notebook 06)
+# ---------------------------------------------------------------------------
+AQUA = "#1baf7a"
+
+
+def curva_troca_penalidade(sens: pd.DataFrame, titulo: str) -> Figure:
+    """Economia de km (x) x entregas no prazo (y): um ponto por penalidade + métodos de referência."""
+    fig, ax = _nova_figura(9.0, 5.4)
+    fig.subplots_adjust(top=0.82, left=0.1, right=0.96, bottom=0.14)
+    pen = sens[sens["analise"] == "penalidade"]
+    curva = pen[pen["metodo"] == "OR-Tools com prazo"].assign(p=lambda d: d["valor"].astype(float)).sort_values("p")
+    ax.plot(curva["economia_km_pct"], curva["no_prazo_pct"], color=AZUL, lw=2, marker="o", ms=7,
+            mec=SUPERFICIE, mew=1.5, zorder=3, label="OR-Tools com prazo")
+    for linha in curva[curva["p"].isin([0.25, 2.0, 30.0])].itertuples(index=False):  # rótulos seletivos
+        ax.annotate(f"{_formatar(linha.p, 2 if linha.p < 1 else 0)} km/min", (linha.economia_km_pct, linha.no_prazo_pct),
+                    xytext=(7, -3), textcoords="offset points", fontsize=8.5, color=TINTA_SEC)
+    refs = pen[(pen["valor"].astype(float) == 0) & (pen["metodo"] != "OR-Tools com prazo")]
+    for linha in refs.itertuples(index=False):
+        ax.scatter(linha.economia_km_pct, linha.no_prazo_pct, s=55, color=CINZA, zorder=3)
+        ax.annotate(linha.metodo[0].upper() + linha.metodo[1:], (linha.economia_km_pct, linha.no_prazo_pct),
+                    xytext=(7, 4), textcoords="offset points", fontsize=9.5, color=TINTA_SEC)
+    ax.xaxis.set_major_formatter(PercentFormatter(decimals=0))
+    ax.yaxis.set_major_formatter(PercentFormatter(decimals=0))
+    ax.set_xlabel("Economia de km vs viagens individuais")
+    ax.set_ylabel("Entregas no prazo")
+    ax.grid(axis="x", visible=True)
+    ax.set_xlim(-2, max(40, pen["economia_km_pct"].max() + 6))
+    _titulo(fig, titulo, "Cada ponto azul é uma penalidade de atraso (quantos km \"vale\" 1 minuto de atraso)")
+    n_entregas = f"{int(pen['entregas'].iloc[0]):,}".replace(",", ".")
+    _nota(fig, f"Amostra de {n_entregas} entregas em 200 lotes de 2 h, até 4 pedidos por viagem, "
+               "sem contar a espera do lote.")
+    return fig
+
+
+def _paineis(n: int, largura: float = 11.0, altura: float = 4.4) -> tuple[Figure, list]:
+    aplicar_estilo()
+    fig, eixos = plt.subplots(1, n, figsize=(largura, altura))
+    fig.subplots_adjust(top=0.72, left=0.07, right=0.98, bottom=0.16, wspace=0.28)
+    return fig, list(np.atleast_1d(eixos))
+
+
+def sensibilidade_capacidade(sens: pd.DataFrame, titulo: str) -> Figure:
+    """Dois painéis: economia de km e entregas no prazo por capacidade da moto."""
+    fig, (ax1, ax2) = _paineis(2, 10.0)
+    cap = sens[(sens["analise"] == "capacidade") & (sens["metodo"] == "OR-Tools com prazo")].copy()
+    cap["c"] = cap["valor"].astype(float).astype(int)
+    cap = cap.sort_values("c")
+    for ax, coluna, painel in [(ax1, "economia_km_pct", "Economia de km"), (ax2, "no_prazo_pct", "Entregas no prazo")]:
+        ax.plot(cap["c"], cap[coluna], color=AZUL, lw=2, marker="o", ms=7, mec=SUPERFICIE, mew=1.5)
+        for x, y in zip(cap["c"], cap[coluna]):
+            ax.annotate(f"{_formatar(y)}%", (x, y), xytext=(0, 8), textcoords="offset points", ha="center",
+                        fontsize=9, color=TINTA)
+        ax.set_title(painel, loc="left", fontsize=11, color=TINTA_SEC, pad=10)
+        ax.set_xticks(cap["c"])
+        ax.set_xlabel("Pedidos por moto (capacidade)")
+        ax.yaxis.set_major_formatter(PercentFormatter(decimals=0))
+    ax1.set_ylim(0, max(50, cap["economia_km_pct"].max() * 1.25))
+    ax2.set_ylim(80, 100.5)
+    _titulo(fig, titulo, "OR-Tools com prazo (penalidade de 2 km por minuto), lotes de 2 h, sem contar a espera")
+    return fig
+
+
+def sensibilidade_janela(sens: pd.DataFrame, titulo: str) -> Figure:
+    """Três painéis por janela do lote (com espera): economia, no prazo e cobertura; uma linha por volume."""
+    fig, eixos = _paineis(3, 12.0, 4.6)
+    jan = sens[sens["analise"] == "janela"]
+    ordem = ["15min", "30min", "1h", "2h"]
+    rotulos = ["15 min", "30 min", "1 h", "2 h"]
+    cores = dict(zip(jan["volume"].dropna().unique(), [AZUL, AQUA]))
+    x = np.arange(len(ordem))
+    paineis = [("economia_km_pct", "Economia de km (nos lotes)", "OR-Tools com prazo"),
+               ("no_prazo_pct", "Entregas no prazo", "OR-Tools com prazo"),
+               ("cobertura_pct", "Entregas que formam lote", "OR-Tools com prazo")]
+    for ax, (coluna, painel, metodo) in zip(eixos, paineis):
+        for volume, cor in cores.items():
+            serie = (jan[(jan["volume"] == volume) & (jan["metodo"] == metodo)]
+                     .set_index("valor")[coluna].reindex(ordem))
+            ax.plot(x, serie.to_numpy(), color=cor, lw=2, marker="o", ms=7, mec=SUPERFICIE, mew=1.5, label=volume)
+        ax.set_xticks(x, rotulos)
+        ax.set_title(painel, loc="left", fontsize=11, color=TINTA_SEC, pad=10)
+        ax.yaxis.set_major_formatter(PercentFormatter(decimals=0))
+        ax.set_xlabel("Janela do lote")
+    ind = jan[(jan["metodo"] == "individual")].groupby("valor")["no_prazo_pct"].mean().reindex(ordem)
+    eixos[1].plot(x, ind.to_numpy(), color=CINZA, lw=1.5, ls="--", label="individual (sai na hora)")
+    eixos[0].set_ylim(0, None)
+    eixos[1].set_ylim(0, 105)
+    eixos[2].set_ylim(0, 105)
+    eixos[1].legend(loc="lower left", fontsize=9)
+    _titulo(fig, titulo, "OR-Tools com prazo contando a espera até o despacho (fim da janela); lotes de 2+ pedidos")
+    _nota(fig, "Volume 4x: base simulada com as mesmas regras e 20.000 pedidos no mesmo período.")
+    return fig

@@ -30,8 +30,9 @@ from logistica_rotas.ingestao.simulacao import (
 
 CAPACIDADE_PADRAO = 4
 TEMPO_PARADA_MIN = 3.0          # estacionar, entregar e voltar à moto
-ESCALA = 1000                   # OR-Tools trabalha com inteiros: km -> metros, min -> milésimos
-PENALIDADE_ATRASO_POR_MIN = 2_000  # em metros equivalentes: 1 min de atraso "custa" 2 km
+ESCALA_DIST = 1000              # OR-Tools trabalha com inteiros: km -> metros
+ESCALA_TEMPO = 10               # minutos -> décimos de minuto
+PENALIDADE_KM_POR_MIN = 2.0     # 1 min de atraso "custa" o mesmo que 2 km rodados
 TEMPO_LIMITE_S = 0.2
 
 
@@ -43,6 +44,7 @@ class ResultadoRotas:
     rotas: list[list[int]]
     km_total: float
     chegada_min: np.ndarray        # tempo de chegada de cada pedido (ordem original)
+    prazos_min: np.ndarray | None = None  # prazo usado na avaliação (pode descontar a espera do lote)
 
 
 def matriz_distancias_km(lats: np.ndarray, lons: np.ndarray) -> np.ndarray:
@@ -101,8 +103,12 @@ def rotas_ortools(
     capacidade: int = CAPACIDADE_PADRAO,
     prazos_min: np.ndarray | None = None,
     tempo_limite_s: float = TEMPO_LIMITE_S,
+    penalidade_km_por_min: float = PENALIDADE_KM_POR_MIN,
 ) -> ResultadoRotas:
-    """CVRP com OR-Tools. Com `prazos_min`, penaliza cada minuto de chegada após o prazo."""
+    """CVRP com OR-Tools. Com `prazos_min`, penaliza cada minuto de chegada após o prazo.
+
+    Prazos negativos (pedido que já esperou mais que o prazo) viram 0: chegará atrasado de qualquer forma.
+    """
     n = matriz.shape[0]
     n_motos = int(np.ceil((n - 1) / capacidade))
     if prazos_min is not None:
@@ -110,7 +116,7 @@ def rotas_ortools(
     gerente = pywrapcp.RoutingIndexManager(n, n_motos, 0)
     modelo = pywrapcp.RoutingModel(gerente)
 
-    dist_m = np.rint(matriz * ESCALA).astype(int)
+    dist_m = np.rint(matriz * ESCALA_DIST).astype(int)
     cb_dist = modelo.RegisterTransitCallback(
         lambda i, j: int(dist_m[gerente.IndexToNode(i), gerente.IndexToNode(j)])
     )
@@ -120,19 +126,21 @@ def rotas_ortools(
     cb_dem = modelo.RegisterUnaryTransitCallback(lambda i: demanda[gerente.IndexToNode(i)])
     modelo.AddDimensionWithVehicleCapacity(cb_dem, 0, [capacidade] * n_motos, True, "Carga")
 
-    if prazos_min is not None:
+    if prazos_min is not None and penalidade_km_por_min > 0:
         v = velocidade_kmh(pico)
-        # tempo de i até j = deslocamento + parada em i (se i não for o hub), em milésimos de minuto
-        tempo = (matriz / v * 60 * ESCALA).astype(int)
-        tempo[1:, :] += int(TEMPO_PARADA_MIN * ESCALA)
+        # tempo de i até j = deslocamento + parada em i (se i não for o hub), em décimos de minuto
+        tempo = np.rint(matriz / v * 60 * ESCALA_TEMPO).astype(int)
+        tempo[1:, :] += int(TEMPO_PARADA_MIN * ESCALA_TEMPO)
         cb_tempo = modelo.RegisterTransitCallback(
             lambda i, j: int(tempo[gerente.IndexToNode(i), gerente.IndexToNode(j)])
         )
-        modelo.AddDimension(cb_tempo, 0, 10_000 * ESCALA, True, "Tempo")
+        modelo.AddDimension(cb_tempo, 0, 100_000 * ESCALA_TEMPO, True, "Tempo")
         dim_tempo = modelo.GetDimensionOrDie("Tempo")
-        coef = max(1, PENALIDADE_ATRASO_POR_MIN // ESCALA)  # custo por milésimo de minuto
+        # custo (metros) por décimo de minuto de atraso
+        coef = max(1, int(round(penalidade_km_por_min * ESCALA_DIST / ESCALA_TEMPO)))
         for no in range(1, n):
-            dim_tempo.SetCumulVarSoftUpperBound(gerente.NodeToIndex(no), int(prazos_min[no - 1] * ESCALA), coef)
+            limite = int(max(prazos_min[no - 1], 0) * ESCALA_TEMPO)
+            dim_tempo.SetCumulVarSoftUpperBound(gerente.NodeToIndex(no), limite, coef)
 
     parametros = pywrapcp.DefaultRoutingSearchParameters()
     parametros.first_solution_strategy = routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC

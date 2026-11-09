@@ -84,3 +84,7 @@ Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/tes
 | 2026-11-09 | Fixar `ortools==9.14.6206` | 9.15 bloqueada pelo Smart App Control do Windows |
 | 2026-11-09 | Roteirização: hub no Centro de cada cidade, lotes de 2 h com 3+ pedidos, até 4 pedidos por moto, 3 min por parada, velocidade determinística | Cenário simples e explícito para comparar métodos entre si (não é previsão de operação real) |
 | 2026-11-09 | Penalidade de atraso no OR-Tools: 1 min = 2 km | Equilibra economia de km e prazo; valor arbitrário, a testar em sensibilidade |
+| 2026-11-09 | Sensibilidade (notebook 06): penalidade recomendada de 10 a 30 km/min | 97,9% a 98,3% no prazo com 29,0% a 28,8% de economia, contra 95,1% e 30,6% com 2 km/min (amostra de 200 lotes, sem espera) |
+| 2026-11-09 | Capacidade de 3 a 4 pedidos por moto | Com 5 ou 6 o resultado não muda: o prazo limita o agrupamento a cerca de 2,4 pedidos por viagem |
+| 2026-11-09 | Resultados do notebook 05 tratados como teto teórico | Contando a espera até o fechamento do lote, nenhuma janela fixa (15 min a 2 h) mantém o prazo; próximo passo é despacho dinâmico |
+| 2026-11-09 | Escala interna do OR-Tools: distância em metros, tempo em décimos de minuto | Permite penalidades fracionárias (ex.: 0,25 km/min) com custos inteiros |

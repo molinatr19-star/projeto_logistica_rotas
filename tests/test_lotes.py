@@ -36,3 +36,34 @@ def test_resumo_metodos_economia_e_prazo():
     por_pico = resumo_metodos(resultados, por=["pico"])
     assert por_pico.loc[(True, "OR-Tools"), "economia_km_pct"] == pytest.approx(50.0)
     assert por_pico.loc[(False, "individual"), "economia_km_pct"] == pytest.approx(0.0)
+
+
+def test_espera_ate_o_fim_da_janela():
+    df = gerar_entregas(n=1500)
+    lotes = montar_lotes(df, janela="30min", minimo=2)
+    assert lotes["espera_min"].between(0, 30).all()
+    fim = lotes["janela"] + pd.Timedelta("30min")
+    esperado = (fim - lotes["data_hora_pedido"]).dt.total_seconds() / 60
+    assert (lotes["espera_min"] - esperado).abs().max() < 1e-9
+
+
+def test_considerar_espera_nao_melhora_prazo():
+    from logistica_rotas.roteirizacao.lotes import amostrar_lotes, avaliar_lotes
+
+    lotes = amostrar_lotes(montar_lotes(gerar_entregas(n=3000), janela="1h", minimo=3), n=15)
+    metodos = ["individual", "OR-Tools com prazo"]
+    sem = resumo_metodos(avaliar_lotes(lotes, metodos=metodos, considerar_espera=False))
+    com = resumo_metodos(avaliar_lotes(lotes, metodos=metodos, considerar_espera=True))
+    # o individual sai na hora: não muda; o lote perde prazo ao esperar
+    assert com.loc["individual", "no_prazo_pct"] == pytest.approx(sem.loc["individual", "no_prazo_pct"])
+    assert com.loc["OR-Tools com prazo", "no_prazo_pct"] <= sem.loc["OR-Tools com prazo", "no_prazo_pct"]
+
+
+def test_penalidade_maior_nao_reduz_prazo():
+    from logistica_rotas.roteirizacao.lotes import amostrar_lotes, avaliar_lotes
+
+    lotes = amostrar_lotes(montar_lotes(gerar_entregas(n=3000)), n=15)
+    baixa = resumo_metodos(avaliar_lotes(lotes, penalidade_km_por_min=0.1, metodos=["individual", "OR-Tools com prazo"]))
+    alta = resumo_metodos(avaliar_lotes(lotes, penalidade_km_por_min=20, metodos=["individual", "OR-Tools com prazo"]))
+    assert alta.loc["OR-Tools com prazo", "no_prazo_pct"] >= baixa.loc["OR-Tools com prazo", "no_prazo_pct"]
+    assert alta.loc["OR-Tools com prazo", "km"] >= baixa.loc["OR-Tools com prazo", "km"] - 1e-6
