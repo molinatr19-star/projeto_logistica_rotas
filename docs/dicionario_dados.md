@@ -71,3 +71,6 @@ Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/tes
 | 2026-11-09 | Outlier de tempo = tempo > 3 x mediana da faixa de distância (ou > 60 km/h) | Validada com gabarito no notebook 02: 32/32 erros encontrados, 1 falso positivo. A regra "velocidade < 3 km/h" do notebook 01 gerava 29 falsos positivos |
 | 2026-11-09 | Outliers não são apagados: tempo vira NaN e sai do OTD | O pedido existiu; só o tempo é inválido, e o status foi calculado com ele |
 | 2026-11-09 | Dashboard usa a base limpa e as funções de `metricas/kpis.py` | Uma única definição de KPI para notebooks, dashboard e testes |
+| 2026-11-09 | Grupos com menos de 30 entregas concluídas ficam sem OTD nos gráficos (`tabela_otd`, `min_pedidos=30`) | Percentual com poucas entregas oscila demais e leva a conclusões falsas |
+| 2026-11-09 | Comparar trajetos sempre dentro da mesma faixa de distância | O notebook 03 mostrou que a diferença "entre cidades x mesma cidade" vem da distância (composição), não da divisa |
+| 2026-11-09 | Figuras do relatório versionadas em `reports/figures/` | O README do portfólio exibe os gráficos no GitHub |

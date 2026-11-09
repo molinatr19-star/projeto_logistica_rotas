@@ -8,6 +8,7 @@ import pytest
 from logistica_rotas.metricas.kpis import (
     mascara_concluidas,
     resumo_operacional,
+    tabela_otd,
     taxa_atraso,
     taxa_cancelamento,
     taxa_otd,
@@ -47,6 +48,21 @@ def test_base_vazia_retorna_nan(base):
     vazia = base.iloc[0:0]
     assert math.isnan(taxa_otd(vazia))
     assert math.isnan(taxa_cancelamento(vazia))
+
+
+def test_tabela_otd_por_grupo(base):
+    base["grupo"] = ["a", "a", "b", "b"]
+    t = tabela_otd(base, "grupo", min_pedidos=1)
+    assert t.loc["a", "otd_pct"] == pytest.approx(100.0)
+    assert t.loc["b", "otd_pct"] == pytest.approx(0.0)  # cancelado fora; só o atraso conta
+    assert t.loc["b", "concluidas"] == 1
+
+
+def test_tabela_otd_esconde_grupo_pequeno(base):
+    base["grupo"] = ["a", "a", "b", "b"]
+    t = tabela_otd(base, "grupo", min_pedidos=2)
+    assert math.isnan(t.loc["b", "otd_pct"])
+    assert t.loc["a", "otd_pct"] == pytest.approx(100.0)
 
 
 def test_resumo_operacional(base):

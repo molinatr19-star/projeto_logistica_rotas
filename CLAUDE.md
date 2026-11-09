@@ -3,7 +3,7 @@
 Projeto de portfólio de análise de dados da Molina sobre logística: rotas inteligentes, desempenho de entregas, tempos de trânsito e eficiência operacional.
 
 ## Status atual
-- Fase: limpeza concluída (2026-11-09). Feitos: gerador de dados simulados (`ingestao/simulacao.py`), `notebooks/01_analise_exploratoria_logistica.ipynb`, `notebooks/02_limpeza.ipynb` (gera `data/interim` e `data/processed` em Parquet), KPIs em `metricas/kpis.py`, limpeza em `limpeza/tratamento.py`. Próximo: `03_desempenho`.
+- Fase: análise de desempenho concluída (2026-11-09). Feitos: gerador de dados simulados (`ingestao/simulacao.py`), notebooks 01 (exploração), 02 (limpeza; gera `data/interim` e `data/processed` em Parquet) e 03 (desempenho; gera `reports/figures/`), KPIs em `metricas/kpis.py`, limpeza em `limpeza/tratamento.py`, gráficos estáticos em `visualizacao/graficos.py` (matplotlib, paleta e cores fixas por trajeto). Próximo: geocodificação dos bairros e roteirização.
 - Dashboard Streamlit em `app.py` (tema escuro em `.streamlit/config.toml`); usa a base limpa (`limpar_entregas`) e os KPIs de `metricas/kpis.py`.
 - Testes: `.venv\Scripts\python.exe -m pytest` (configuração em `pyproject.toml`). Rodar após mexer em `src/`.
 - Ambiente Windows com Smart App Control ligado: versões muito recentes de pacotes com DLL podem ser bloqueadas ("política de Controle de Aplicativo"). Por isso `pyarrow==25.0.1` está fixado.

@@ -44,6 +44,17 @@ def taxa_cancelamento(df: pd.DataFrame) -> float:
     return _percentual(df["status"] == STATUS_CANCELADO)
 
 
+def tabela_otd(df: pd.DataFrame, por: str | list[str], min_pedidos: int = 30) -> pd.DataFrame:
+    """OTD (%) e nº de entregas concluídas por grupo. Grupos com menos de `min_pedidos` ficam com OTD NaN."""
+    feitas = df[mascara_concluidas(df)]
+    tabela = feitas.groupby(por, observed=True)["status"].agg(
+        concluidas="size",
+        otd_pct=lambda s: (s == STATUS_NO_PRAZO).mean() * 100,
+    )
+    tabela.loc[tabela["concluidas"] < min_pedidos, "otd_pct"] = float("nan")
+    return tabela
+
+
 def resumo_operacional(grupo: pd.DataFrame) -> pd.Series:
     """Indicadores básicos de um grupo de entregas (usar com groupby().apply)."""
     feitas = grupo[mascara_concluidas(grupo)]
