@@ -1,102 +1,103 @@
-# Logística e Rotas Inteligentes
+# Entregas de moto no ABC paulista: onde o prazo falha e quanto a roteirização realmente economiza
 
-Projeto de portfólio em análise de dados sobre desempenho de entregas, tempos de trânsito, eficiência operacional e otimização de rotas.
+Projeto de portfólio em análise de dados e otimização logística. Parte de uma base de 5.000 entregas de moto em Santo André, São Bernardo do Campo, São Caetano do Sul, Diadema e Mauá e responde duas perguntas de negócio:
 
-Base simulada de entregas de moto no ABC paulista (Santo André, São Bernardo do Campo, São Caetano do Sul, Diadema) e em Mauá, com bairros e vias reais e bairros geocodificados pelo OpenStreetMap. Pedidos, tempos e valores são simulados.
+1. **Por que as entregas atrasam?**
+2. **Agrupar pedidos numa mesma viagem compensa - e em que condições?**
 
-> Status: exploração, limpeza, desempenho, mapas, roteirização, sensibilidade, despacho dinâmico, políticas de coleta, distância real e dashboard prontos.
+`Python` · `pandas` · `matplotlib` · `Plotly` · `Streamlit` · `OR-Tools` · `OpenStreetMap / Nominatim` · `OSRM` · `pytest`
 
-## Principais resultados
+> **Sobre os dados:** os pedidos, tempos e valores são **simulados** com regras explícitas (seed fixa). Os municípios, bairros e vias são reais; 43 dos 45 bairros têm coordenada do OpenStreetMap, e a distância pela rua foi medida com o OSRM. Os números mostram o **método**, não uma operação real.
 
-**1. O trânsito, e não a demanda, derruba o prazo.** Nos dias úteis, o OTD cai de 95,9% para 77,6% no pico (8h e 17h às 19h). No fim de semana, sem pico, fica em 96,9%.
+![Dashboard](reports/figures/00_dashboard.png)
+
+## Resumo
+
+- **O trânsito derruba o prazo, não a demanda.** No pico (8h e 17h às 19h dos dias úteis), as entregas no prazo caem de 95,9% para 77,6%.
+- **Entregas entre cidades atrasam por serem longas, não por cruzarem a divisa.** Comparando entregas da mesma faixa de distância, a diferença desaparece.
+- **A otimização "de livro" promete 29% de economia de km; a realista entrega de 2% a 6%.** O teto supõe que os pedidos já estão todos disponíveis. Decidindo pedido a pedido, com o prazo no modelo, o ganho é bem menor.
+- **O que cria ganho é centralizar a coleta, não o algoritmo.** Só com um hub por cidade agrupar entregas compensa. Com coleta espalhada por restaurante, a economia fica abaixo de 1%.
+
+## Principais achados
+
+### 1. O trânsito, e não a demanda, derruba o prazo
+Almoço e jantar têm mais pedidos, mas o OTD (% de entregas no prazo) só cai nos horários de pico de trânsito dos dias úteis. No fim de semana, nos mesmos horários, não há queda.
 
 ![OTD por hora](reports/figures/01_otd_por_hora.png)
 
-**2. Entregas entre cidades atrasam mais por serem longas, e não por cruzarem a divisa.** No geral, o OTD é de 84,1% entre cidades e de 94,8% na mesma cidade. Comparando faixas de distância iguais, as duas linhas andam juntas.
+### 2. Correlação não é causa: a distância explica o atraso entre cidades
+No geral, entregas entre cidades têm 84,1% no prazo, contra 94,8% dentro da mesma cidade. Mas, dentro de cada faixa de distância, as duas linhas andam juntas: elas atrasam porque são mais longas. Monitorar o desempenho só por cidade confundiria composição com desempenho.
 
 ![OTD por faixa de distância](reports/figures/02_otd_faixa_trajeto.png)
 
-**3. Pico e distância se somam.** Só 51,4% das entregas entre cidades no pico chegam no prazo. A regra de prazo cresce com a distância, mas ignora o horário.
-
-![OTD por pico e trajeto](reports/figures/03_otd_pico_trajeto.png)
-
-**4. Roteirizar com o prazo no modelo economiza 29% dos km e mantém 96% no prazo - como teto teórico.** Comparando lotes de 2 h a partir de um hub por cidade: otimizar só a distância economiza mais (34,7%), mas derruba as entregas no prazo para 68,4%.
-
-![Comparação de métodos de roteirização](reports/figures/08_comparacao_metodos.png)
-
-![Exemplo de rotas](reports/figures/09_exemplo_rotas.png)
-
-**5. Mas, contando a espera do lote, nenhuma janela fixa mantém o prazo.** O teto acima supõe que os pedidos da janela já estão todos disponíveis. Contando a espera até o lote fechar, mesmo uma janela de 15 min derruba as entregas em lote para cerca de 84% no prazo (contra 98,8% saindo na hora), e 4 vezes mais volume não resolve. O estudo de sensibilidade também mostrou que uma penalidade de atraso de 10 a 30 km/min mantém cerca de 98% no prazo com 29% de economia, e que mais de 4 pedidos por moto não traz ganho. ![Sensibilidade da janela](reports/figures/12_sensibilidade_janela.png)
-
-**6. Com despacho dinâmico, a economia realista é de 2% a 8% dos km.** Decidindo pedido a pedido (a moto só espera enquanto o prazo permite, com margem de 5 min), o prazo planejado fica intacto. No volume atual, porém, a economia é de só 1% a 3%, e chega a 4% a 8% com 4 vezes o volume, perdendo de 1 a 5 pontos de prazo na rua. No pico, quase não há ganho: a regra prática é não esperar no pico.
+### 3. Da economia teórica à realista
+- **Teto teórico:** com lotes de 2 horas e OR-Tools com penalidade de atraso, a economia chega a 29% dos km com 96% no prazo.
+- **Contando a espera:** quando se conta a espera até o lote fechar, nenhuma janela fixa mantém o prazo.
+- **Despacho dinâmico:** a moto só espera enquanto o prazo de todos permite, com margem de 5 min e sem espera no pico. A economia é de 1,9% no volume atual e de 5,7% com 4 vezes o volume, perdendo menos de 2 pontos de prazo na rua (0,6 e 1,7 ponto).
 
 ![Despacho dinâmico](reports/figures/13_despacho_dinamico.png)
 
-**7. O ganho vem da centralização da coleta, não do algoritmo.** Não esperar no pico quase não custa economia (1,9% contra 2,0%) e devolve prazo (96,4% contra 95,3%). Já com um ponto de coleta por bairro, em vez de um hub por cidade, a economia cai para menos de 1,5%, mesmo com 4 vezes o volume.
+### 4. Centralizar a coleta é o que viabiliza agrupar
+Foram comparados três modelos de coleta: hub por cidade, coleta no bairro e várias coletas na mesma viagem. Só o hub gera economia relevante. Sem centralização, quase nenhum par de pedidos cabe no prazo, e a melhor política é despachar na hora. A pergunta antes de investir em algoritmo é operacional: **dá para concentrar a coleta?**
 
-![Políticas e pontos de coleta](reports/figures/14_politicas_e_coleta.png)
+![Modelos de coleta](reports/figures/16_modelos_de_coleta.png)
 
-**8. Pela rua, o caminho é 37% maior que a linha reta.** Medido com o OSRM entre os 45 bairros, o fator real (1,37 de mediana, 1,71 em trechos curtos) é maior que o 1,3 usado no modelo. Com o fator calibrado, os km sobem cerca de 9%, mas a economia relativa e as conclusões se mantêm.
+Todos os 10 achados, com os gráficos, estão em [`docs/resultados_detalhados.md`](docs/resultados_detalhados.md).
 
-![Fator de tortuosidade](reports/figures/15_fator_tortuosidade_osrm.png)
+## Método
 
-**9. No mapa, bairros com entregas mais longas tendem a atrasar mais** (bairros geocodificados pelo OpenStreetMap). Mapa interativo em `reports/mapa_bairros.html`.
+| Etapa | O que foi feito | Notebook |
+|---|---|---|
+| Dados | Simulação com regras explícitas; bairros geocodificados (Nominatim) | 01, 04 |
+| Limpeza | Regra de outlier de tempo **validada com gabarito**: a simulação permite saber quais registros estão errados | 02 |
+| Desempenho | KPIs (OTD, atraso, tempo mediano); comparação dentro de faixas de distância para separar causa de composição | 03 |
+| Mapas | Mapa estático e interativo (folium) por bairro | 04 |
+| Roteirização | Individual x vizinho mais próximo x OR-Tools x OR-Tools com prazo em 761 lotes | 05 |
+| Sensibilidade | Penalidade, capacidade e janela, contando a espera; dois volumes de demanda | 06 |
+| Despacho dinâmico | Decisão pedido a pedido; prazo planejado e com variação de trânsito | 07, 08 |
+| Distância real | Fator de tortuosidade medido com o OSRM e impacto nas conclusões | 09 |
+| Coleta múltipla | Várias coletas na mesma viagem (pickup and delivery) | 10 |
 
-![Mapa de atraso por bairro](reports/figures/07_mapa_bairros_atraso.png)
+O código reutilizável fica em `src/logistica_rotas/`, e os notebooks só orquestram. Os 39 testes automatizados (`tests/`) cobrem KPIs, limpeza, roteirização e despacho.
 
-Mais gráficos em [`reports/figures/`](reports/figures/) e nos notebooks. *Dados simulados: os resultados mostram o método, não uma operação real.*
+## O que mudou ao longo do projeto
+Três resultados iniciais foram revistos quando a análise ficou mais rigorosa. Todas as revisões estão registradas no [dicionário de dados](docs/dicionario_dados.md).
 
-## Perguntas de negócio
-- Quais rotas e regiões concentram atrasos?
-- Qual o tempo de trânsito por trecho e período?
-- Onde estão as ineficiências de custo e ocupação?
-- Quanto uma roteirização otimizada reduziria distância e tempo?
+- **Regra de outlier:** a primeira regra (velocidade < 3 km/h) marcava 32 entregas corretas como erro. Validada com gabarito, foi trocada por "tempo > 3x a mediana da mesma faixa de distância", que acerta os 32 erros propositais com 2 falsos positivos.
+- **Economia da roteirização:** os 29% iniciais eram um teto teórico. O estudo de sensibilidade mostrou o efeito da espera, e o despacho dinâmico chegou ao valor realista.
+- **Distância:** o fator 1,3 (linha reta para rua) foi medido com o OSRM: o real é 1,37, e 1,71 em trechos curtos. As conclusões se mantiveram.
 
-## Tecnologias
-Python, pandas, numpy, matplotlib, seaborn, plotly, geopandas, folium, OR-Tools, Jupyter, pytest.
+## Limitações
+- Pedidos, tempos e prazos são simulados; as relações refletem as regras do gerador.
+- Velocidade média fixa (normal ou pico); sem tempo de preparo do pedido; frota ilimitada.
+- Distância entre centros de bairro (OSRM) e, por pedido, linha reta multiplicada por um fator.
+
+## Como rodar
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+
+.venv\Scripts\python.exe -m jupyter lab            # notebooks
+.venv\Scripts\python.exe -m streamlit run app.py   # dashboard (http://localhost:8501)
+.venv\Scripts\python.exe -m pytest                 # testes
+```
+No Windows com Smart App Control ligado, use `python -m <pacote>`, porque os atalhos `.exe` dos pacotes podem ser bloqueados. Pelo mesmo motivo, `pyarrow` e `ortools` estão fixados em versões que o Windows aceita.
 
 ## Estrutura
 ```
-data/        raw -> interim -> processed (+ external)
-notebooks/   análises numeradas
-src/         código reutilizável (pacote logistica_rotas)
-reports/     relatório e figuras
-docs/        dicionário de dados e decisões
-tests/       testes automatizados
+data/         raw -> interim -> processed; external/ (caches do OpenStreetMap e do OSRM)
+notebooks/    01 a 10, na ordem da análise
+src/          pacote logistica_rotas (ingestao, limpeza, metricas, roteirizacao, visualizacao)
+reports/      figuras (PNG) e mapas interativos (HTML)
+docs/         dicionário de dados, decisões e resultados detalhados
+tests/        testes automatizados (pytest)
+app.py        dashboard Streamlit
 ```
-
-## Como rodar
-```bash
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -r requirements.txt
-jupyter lab
-```
-
-## Notebooks
-1. `01_analise_exploratoria_logistica.ipynb` - visão geral da base, cidades, bairros, pico e entregas entre cidades.
-2. `02_limpeza.ipynb` - regra de outlier de tempo validada com gabarito; gera as bases `interim` e `processed` (Parquet).
-3. `03_desempenho.ipynb` - OTD por horário, trajeto e cidade; separa o efeito da distância do efeito de cruzar a divisa; gera as figuras do relatório.
-4. `04_mapas.ipynb` - qualidade da geocodificação (43 de 45 bairros), checagem de coordenadas e mapas estático e interativo.
-5. `05_roteirizacao.ipynb` - individual x vizinho mais próximo x OR-Tools x OR-Tools com prazo em 761 lotes; troca entre km e prazo.
-6. `06_sensibilidade_rotas.ipynb` - sensibilidade da penalidade, da capacidade e da janela do lote (contando a espera), em dois volumes de demanda.
-7. `07_despacho_dinamico.ipynb` - despacho pedido a pedido com espera máxima e margem de segurança; prazo planejado e com variação de trânsito.
-8. `08_politicas_e_coleta.ipynb` - política sem espera no pico e coleta por bairro em vez de hub.
-9. `09_distancia_real_osrm.ipynb` - fator de tortuosidade real pela malha viária (OSRM) e impacto nas conclusões.
 
 ## Créditos de dados
-Coordenadas dos bairros e mapa de fundo: © colaboradores do [OpenStreetMap](https://www.openstreetmap.org/copyright), licença ODbL, consultados via Nominatim respeitando a política de uso (1 consulta/s, cache local). Distâncias pela malha viária: [Project OSRM](https://project-osrm.org/) (servidor público de demonstração, uma única consulta, cache local).
-
-## Testes
-```powershell
-.venv\Scripts\python.exe -m pytest
-```
-
-## Dashboard interativo (Streamlit)
-```powershell
-.venv\Scripts\python.exe -m streamlit run app.py
-```
-Abre em `http://localhost:8501`. Filtros por status, cidade e bairro, KPIs (entregas, taxa de atraso, tempo médio, cancelamento, valor médio) e gráficos por status, bairro, faixa de distância e hora do pedido.
+- Coordenadas dos bairros e mapas: © colaboradores do [OpenStreetMap](https://www.openstreetmap.org/copyright), licença ODbL, consultados via Nominatim (1 consulta/s, cache local).
+- Distâncias pela malha viária: [Project OSRM](https://project-osrm.org/) (servidor público de demonstração; uma única consulta, cache local).
 
 ## Autoria
 Molina - estudante de Análise e Desenvolvimento de Sistemas.

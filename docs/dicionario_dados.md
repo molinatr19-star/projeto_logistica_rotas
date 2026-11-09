@@ -95,3 +95,7 @@ Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/tes
 | 2026-11-09 | Coleta por bairro não compensa agrupar | Economia abaixo de 1,5% mesmo com 4x o volume; o ganho depende de centralizar a coleta (hub/dark kitchen) |
 | 2026-11-09 | Matriz OSRM entre os 45 bairros (uma consulta ao servidor público, cache versionado em `data/external/osrm_bairros.csv`) | Medir o fator de tortuosidade real com uso leve do serviço |
 | 2026-11-09 | Fator calibrado opcional: 1,31 + 0,40 / distância em linha reta (`fator="osrm"` no despacho) | Mediana real de 1,37 (1,71 até 2 km) contra 1,3 fixo; a simulação base continua com 1,3 para manter os notebooks comparáveis |
+| 2026-11-09 | Coleta múltipla (notebook 10): até 3 pedidos, força bruta sobre as ordens com coleta antes da entrega | 90 ordens com 3 pedidos: solução exata e rápida |
+| 2026-11-09 | Na coleta múltipla, só juntar pedidos se o caminho conjunto for mais curto que as viagens separadas | Sem hub, juntar pode alongar o caminho; o caso foi pego por um teste automático |
+| 2026-11-09 | README reescrito como resumo de portfólio; resultados completos em `docs/resultados_detalhados.md` | Leitura rápida para avaliadores, sem perder o detalhe |
+| 2026-11-09 | Cards de KPI do dashboard com fonte proporcional à largura do cartão (container queries) | O valor "R$" era cortado em telas mais estreitas |

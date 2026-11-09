@@ -83,7 +83,8 @@ st.markdown(
 
     /* Cartões de KPI */
     .kpi {{
-        position: relative; overflow: hidden; height: 100%;
+        position: relative; overflow: hidden; height: 100%; min-width: 0;
+        container-type: inline-size;  /* o número se ajusta à largura do próprio cartão */
         padding: 1rem 1.1rem 1.05rem 1.1rem; border-radius: 16px;
         background: linear-gradient(150deg, color-mix(in srgb, var(--acc) 16%, {COR_CARTAO}) 0%, {COR_CARTAO} 65%);
         border: 1px solid color-mix(in srgb, var(--acc) 60%, transparent);
@@ -96,11 +97,13 @@ st.markdown(
         background: linear-gradient(90deg, var(--acc), transparent);
     }}
     .kpi-rotulo {{display: flex; align-items: center; gap: .45rem; color: {COR_TEXTO_SEC};
-        font-size: .82rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase;}}
-    .kpi-ponto {{width: 8px; height: 8px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 10px var(--acc);}}
-    .kpi-valor {{color: {COR_TEXTO}; font-size: 2.55rem; font-weight: 800; line-height: 1.15;
+        font-size: clamp(.62rem, 7cqi, .82rem); font-weight: 600; letter-spacing: .03em; text-transform: uppercase;
+        white-space: nowrap;}}
+    .kpi-ponto {{flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 10px var(--acc);}}
+    .kpi-valor {{color: {COR_TEXTO}; font-size: clamp(1.5rem, 20cqi, 2.55rem); font-weight: 800; line-height: 1.15;
         margin-top: .35rem; font-variant-numeric: tabular-nums; white-space: nowrap;}}
-    .kpi-valor small {{font-size: 1.1rem; font-weight: 600; color: {COR_TEXTO_SEC}; margin-left: .2rem;}}
+    .kpi-valor small {{font-size: .45em; font-weight: 600; color: {COR_TEXTO_SEC}; margin-left: .2rem;}}
+    .kpi-valor small.prefixo {{margin-left: 0; margin-right: .25rem;}}
     .kpi-nota {{color: {COR_MUTED}; font-size: .8rem; margin-top: .15rem;}}
 
     /* Cartões dos gráficos (containers com key "card_...") */
@@ -190,13 +193,15 @@ def resumo_bairros(df: pd.DataFrame, coluna: str) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 # Componentes HTML
 # ---------------------------------------------------------------------------
-def cartao_kpi(rotulo: str, valor: str, nota: str, cor: str, unidade: str = "", dica: str = "") -> str:
-    """Cartão de KPI com borda e brilho na cor de destaque."""
+def cartao_kpi(rotulo: str, valor: str, nota: str, cor: str, unidade: str = "", dica: str = "",
+               prefixo: str = "") -> str:
+    """Cartão de KPI com borda e brilho na cor de destaque. `prefixo`/`unidade` aparecem menores."""
     unidade_html = f"<small>{unidade}</small>" if unidade else ""
+    prefixo_html = f'<small class="prefixo">{prefixo}</small>' if prefixo else ""
     return (
         f'<div class="kpi" style="--acc:{cor}" title="{dica}">'
         f'<div class="kpi-rotulo"><span class="kpi-ponto"></span>{rotulo}</div>'
-        f'<div class="kpi-valor">{valor}{unidade_html}</div>'
+        f'<div class="kpi-valor">{prefixo_html}{valor}{unidade_html}</div>'
         f'<div class="kpi-nota">{nota}</div></div>'
     )
 
@@ -354,7 +359,8 @@ with st.sidebar:
     st.divider()
     st.caption(
         "Dados simulados: 5.000 pedidos (set-out/2026) no ABC paulista e em Mauá. "
-        "Bairros e ruas reais; pedidos, tempos e posições dos bairros são simulados."
+        "Bairros e ruas reais; 43 de 45 bairros com coordenada do OpenStreetMap. "
+        "Pedidos, tempos e valores são simulados."
     )
 
 filtro = dados["status"].isin(status_sel)
@@ -389,7 +395,7 @@ cartoes = [
     cartao_kpi("Tempo médio", formatar(kpi["tempo_medio_min"], 1), f"mediana {formatar(kpi['tempo_mediano_min'], 1)} min",
                NEON_CIANO, "min", "Tempo de trânsito das entregas concluídas."),
     cartao_kpi("Cancelamento", formatar(kpi["cancelamento_%"], 1), "sobre todos os pedidos", NEON_VERMELHO, "%"),
-    cartao_kpi("Valor médio", "R$ " + formatar(kpi["valor_medio_brl"], 2), "por entrega", NEON_VERDE),
+    cartao_kpi("Valor médio", formatar(kpi["valor_medio_brl"], 2), "por entrega", NEON_VERDE, prefixo="R$"),
 ]
 for coluna_kpi, html in zip(st.columns(5, gap="small"), cartoes):
     coluna_kpi.markdown(html, unsafe_allow_html=True)
