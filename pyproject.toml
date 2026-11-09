@@ -1,0 +1,13 @@
+[project]
+name = "logistica-rotas"
+version = "0.1.0"
+description = "Portfólio de análise de dados logísticos: entregas de moto no ABC paulista e em Mauá."
+requires-python = ">=3.13"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+src = ["src"]

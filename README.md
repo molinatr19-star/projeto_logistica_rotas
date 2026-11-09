@@ -33,6 +33,15 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
+## Notebooks
+1. `01_analise_exploratoria_logistica.ipynb` - visão geral da base, cidades, bairros, pico e entregas entre cidades.
+2. `02_limpeza.ipynb` - regra de outlier de tempo validada com gabarito; gera as bases `interim` e `processed` (Parquet).
+
+## Testes
+```powershell
+.venv\Scripts\python.exe -m pytest
+```
+
 ## Dashboard interativo (Streamlit)
 ```powershell
 .venv\Scripts\python.exe -m streamlit run app.py

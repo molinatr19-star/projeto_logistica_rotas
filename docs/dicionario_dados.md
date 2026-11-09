@@ -29,11 +29,34 @@ Gerado por `src/logistica_rotas/ingestao/simulacao.py` (`random_state=42`, 5.000
 | valor_entrega_brl | decimal | R$ | 5,99 + 1,50 x distância; +20% no pico |
 | status | categoria | - | `cancelado` (4%, ou 7% no pico); `com_atraso` se tempo > prazo; senão `entregue` |
 
+## entregas_validadas.parquet (data/interim) e entregas_limpas.parquet (data/processed)
+
+Gerados pelo `notebooks/02_limpeza.ipynb` com `src/logistica_rotas/limpeza/tratamento.py`. Mesmas 5.000 linhas do CSV (nenhuma apagada). A base `interim` mantém os valores originais; a `processed` tem o tempo dos outliers vazio.
+
+| Coluna | Tipo | Unidade | Regra / descrição |
+|--------|------|---------|-------------------|
+| local_origem / local_destino | texto | - | "Bairro · Sigla da cidade" (SA, SBC, SCS, Diadema, Mauá) |
+| trajeto | texto | - | `mesma cidade` ou `entre cidades` |
+| hora | inteiro | h | Hora do pedido (0-23) |
+| dia_util | booleano | - | Segunda a sexta |
+| faixa_distancia_km | categoria | km | 0-2, 2-4, 4-6, 6-8, 8-10, 10-15, 15+ (intervalo fechado à esquerda) |
+| velocidade_media_kmh | decimal | km/h | distancia_km / (tempo_transito_min / 60); inclui o tempo fixo de coleta/entrega |
+| outlier_tempo | booleano | - | Tempo > 3 x mediana do tempo na mesma faixa de distância, ou velocidade > 60 km/h. Cancelados = False |
+| tempo_transito_min_bruto | decimal | min | Só na `processed`: valor original do tempo antes do tratamento |
+| tempo_transito_min | decimal | min | Na `processed`: vazio (NaN) quando `outlier_tempo` = True |
+
 # Definições de KPIs
+
+Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/test_kpis.py`.
 
 | KPI | Fórmula | Observações |
 |-----|---------|-------------|
-|     |         |             |
+| Entregas concluídas | status != `cancelado` e `outlier_tempo` = False | O filtro de outlier só se aplica quando a coluna existe (base limpa) |
+| OTD (%) | entregas `entregue` / entregas concluídas | On-Time Delivery |
+| Taxa de atraso (%) | entregas `com_atraso` / entregas concluídas | = 100 - OTD |
+| Taxa de cancelamento (%) | `cancelado` / total de pedidos | |
+| Tempo de trânsito | mediana de `tempo_transito_min` das concluídas | Mediana nos resumos; média só no card do dashboard, com a mediana ao lado |
+| Valor médio (R$) | média de `valor_entrega_brl` de todos os pedidos | |
 
 # Decisões do projeto
 
@@ -45,3 +68,6 @@ Gerado por `src/logistica_rotas/ingestao/simulacao.py` (`random_state=42`, 5.000
 | 2026-11-09 | Dashboard Streamlit (`app.py`) | Explorar KPIs e filtros de forma interativa no portfólio |
 | 2026-11-09 | Fixar `pyarrow==25.0.1` | Versão 26.0.1 bloqueada pelo Smart App Control do Windows |
 | 2026-11-09 | Simulação no ABC paulista + Mauá (bairros e vias reais) | Dar contexto geográfico real ao portfólio; posições dos bairros seguem simuladas |
+| 2026-11-09 | Outlier de tempo = tempo > 3 x mediana da faixa de distância (ou > 60 km/h) | Validada com gabarito no notebook 02: 32/32 erros encontrados, 1 falso positivo. A regra "velocidade < 3 km/h" do notebook 01 gerava 29 falsos positivos |
+| 2026-11-09 | Outliers não são apagados: tempo vira NaN e sai do OTD | O pedido existiu; só o tempo é inválido, e o status foi calculado com ele |
+| 2026-11-09 | Dashboard usa a base limpa e as funções de `metricas/kpis.py` | Uma única definição de KPI para notebooks, dashboard e testes |

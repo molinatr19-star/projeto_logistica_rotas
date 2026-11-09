@@ -14,7 +14,9 @@ import streamlit as st
 RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ / "src"))
 
-from logistica_rotas.ingestao.leitura import carregar_entregas, rotulo_local  # noqa: E402
+from logistica_rotas.ingestao.leitura import carregar_entregas  # noqa: E402
+from logistica_rotas.limpeza.tratamento import limpar_entregas  # noqa: E402
+from logistica_rotas.metricas.kpis import mascara_concluidas, taxa_atraso, taxa_cancelamento  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Paleta neon (dark mode)
@@ -148,25 +150,22 @@ st.markdown(
 # ---------------------------------------------------------------------------
 @st.cache_data
 def obter_dados() -> pd.DataFrame:
-    """Carrega a base uma vez e guarda em cache entre interações."""
-    df = carregar_entregas()
-    df["hora"] = df["data_hora_pedido"].dt.hour
-    df["local_origem"] = rotulo_local(df["bairro_origem"], df["cidade_origem"])
-    df["local_destino"] = rotulo_local(df["bairro_destino"], df["cidade_destino"])
+    """Carrega a base limpa (outliers de tempo tratados, ver notebook 02) e guarda em cache."""
+    df = limpar_entregas(carregar_entregas())
     df["faixa_distancia"] = pd.cut(df["distancia_km"], bins=FAIXAS_KM, labels=FAIXAS_ROTULO, right=False)
     return df
 
 
 def calcular_kpis(df: pd.DataFrame) -> dict[str, float]:
-    """KPIs do topo. Taxa de atraso e tempo usam só entregas concluídas (sem cancelados)."""
-    concluidas = df[df["status"] != "cancelado"]
+    """KPIs do topo (regras em metricas/kpis.py): concluídas sem cancelados e sem tempo inválido."""
+    concluidas = df[mascara_concluidas(df)]
     return {
         "total": len(df),
         "concluidas": len(concluidas),
-        "taxa_atraso_%": (concluidas["status"] == "com_atraso").mean() * 100 if len(concluidas) else float("nan"),
+        "taxa_atraso_%": taxa_atraso(df),
         "tempo_medio_min": concluidas["tempo_transito_min"].mean(),
         "tempo_mediano_min": concluidas["tempo_transito_min"].median(),
-        "cancelamento_%": (df["status"] == "cancelado").mean() * 100,
+        "cancelamento_%": taxa_cancelamento(df),
         "valor_medio_brl": df["valor_entrega_brl"].mean(),
     }
 
@@ -181,7 +180,7 @@ def formatar(valor: float, casas: int = 1, sufixo: str = "") -> str:
 
 def resumo_bairros(df: pd.DataFrame, coluna: str) -> pd.DataFrame:
     """Entregas e taxa de atraso (sobre concluídas) por bairro."""
-    concl = df[df["status"] != "cancelado"]
+    concl = df[mascara_concluidas(df)]
     return pd.DataFrame({
         "entregas": df.groupby(coluna, observed=True).size(),
         "atraso_%": concl.groupby(coluna, observed=True)["status"].apply(lambda s: (s == "com_atraso").mean() * 100),
@@ -299,7 +298,7 @@ def grafico_faixas(df: pd.DataFrame) -> go.Figure:
 
 def grafico_atraso_hora(df: pd.DataFrame) -> go.Figure:
     """Linha com área: taxa de atraso por hora do pedido, com picos de trânsito sombreados."""
-    concl = df[df["status"] != "cancelado"]
+    concl = df[mascara_concluidas(df)]
     por_hora = concl.groupby("hora").agg(
         atraso=("status", lambda s: (s == "com_atraso").mean() * 100),
         entregas=("status", "size"),
@@ -431,7 +430,12 @@ with col_b:
         st.plotly_chart(grafico_atraso_hora(df), width="stretch", config=CONFIG_PLOTLY)
 
 with st.expander("Ver dados filtrados"):
-    tabela = df.drop(columns=["hora", "faixa_distancia", "local_origem", "local_destino"]).assign(
+    colunas_tabela = [
+        "id_pedido", "data_hora_pedido", "cidade_origem", "bairro_origem", "cidade_destino", "bairro_destino",
+        "endereco_destino", "distancia_km", "horario_pico", "tempo_transito_min", "prazo_prometido_min",
+        "valor_entrega_brl", "status", "outlier_tempo", "tempo_transito_min_bruto",
+    ]
+    tabela = df[colunas_tabela].assign(
         data_hora_pedido=df["data_hora_pedido"].dt.strftime("%d/%m/%Y %H:%M")
     )
     st.dataframe(tabela, width="stretch", hide_index=True)

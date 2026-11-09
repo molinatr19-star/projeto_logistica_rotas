@@ -3,8 +3,9 @@
 Projeto de portfólio de análise de dados da Molina sobre logística: rotas inteligentes, desempenho de entregas, tempos de trânsito e eficiência operacional.
 
 ## Status atual
-- Fase: análise exploratória (2026-11-09). Feitos: gerador de dados simulados (`src/logistica_rotas/ingestao/simulacao.py`) e `notebooks/01_analise_exploratoria_logistica.ipynb`.
-- Dashboard Streamlit em `app.py` (tema escuro em `.streamlit/config.toml`; leitura via `src/logistica_rotas/ingestao/leitura.py`).
+- Fase: limpeza concluída (2026-11-09). Feitos: gerador de dados simulados (`ingestao/simulacao.py`), `notebooks/01_analise_exploratoria_logistica.ipynb`, `notebooks/02_limpeza.ipynb` (gera `data/interim` e `data/processed` em Parquet), KPIs em `metricas/kpis.py`, limpeza em `limpeza/tratamento.py`. Próximo: `03_desempenho`.
+- Dashboard Streamlit em `app.py` (tema escuro em `.streamlit/config.toml`); usa a base limpa (`limpar_entregas`) e os KPIs de `metricas/kpis.py`.
+- Testes: `.venv\Scripts\python.exe -m pytest` (configuração em `pyproject.toml`). Rodar após mexer em `src/`.
 - Ambiente Windows com Smart App Control ligado: versões muito recentes de pacotes com DLL podem ser bloqueadas ("política de Controle de Aplicativo"). Por isso `pyarrow==25.0.1` está fixado.
 - Fonte de dados atual: entregas de moto simuladas no ABC paulista + Mauá (bairros e vias reais; posições, pedidos e tempos simulados), em `data/raw/dados_entregas_simulados.csv`. Bairro "Centro" existe nas 5 cidades: analisar sempre bairro + cidade.
 - Comandos do `.venv` via `python -m` (ex.: `.venv\Scripts\python.exe -m streamlit run app.py`): os `.exe` de atalho são bloqueados pelo Smart App Control.
