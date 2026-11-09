@@ -1,12 +1,13 @@
 # Dados
 pandas
 numpy
-pyarrow
+pyarrow==25.0.1  # 26.0.1 bloqueada pelo Smart App Control do Windows (2026-11-09)
 
 # Visualização
 matplotlib
 seaborn
 plotly
+streamlit
 
 # Geografia e rotas
 geopandas

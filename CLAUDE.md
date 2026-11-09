@@ -4,7 +4,10 @@ Projeto de portfólio de análise de dados da Molina sobre logística: rotas int
 
 ## Status atual
 - Fase: análise exploratória (2026-11-09). Feitos: gerador de dados simulados (`src/logistica_rotas/ingestao/simulacao.py`) e `notebooks/01_analise_exploratoria_logistica.ipynb`.
-- Fonte de dados atual: entregas urbanas de moto simuladas (cidade fictícia), em `data/raw/dados_entregas_simulados.csv`.
+- Dashboard Streamlit em `app.py` (tema escuro em `.streamlit/config.toml`; leitura via `src/logistica_rotas/ingestao/leitura.py`).
+- Ambiente Windows com Smart App Control ligado: versões muito recentes de pacotes com DLL podem ser bloqueadas ("política de Controle de Aplicativo"). Por isso `pyarrow==25.0.1` está fixado.
+- Fonte de dados atual: entregas de moto simuladas no ABC paulista + Mauá (bairros e vias reais; posições, pedidos e tempos simulados), em `data/raw/dados_entregas_simulados.csv`. Bairro "Centro" existe nas 5 cidades: analisar sempre bairro + cidade.
+- Comandos do `.venv` via `python -m` (ex.: `.venv\Scripts\python.exe -m streamlit run app.py`): os `.exe` de atalho são bloqueados pelo Smart App Control.
 - Não implementar lógica, baixar dados nem rodar scripts sem pedido explícito da Molina.
 
 ## Objetivo do projeto
