@@ -1,0 +1,21 @@
+# Dados
+pandas
+numpy
+pyarrow
+
+# Visualização
+matplotlib
+seaborn
+plotly
+
+# Geografia e rotas
+geopandas
+folium
+haversine
+networkx
+ortools
+
+# Ambiente e qualidade
+jupyterlab
+pytest
+ruff

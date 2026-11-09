@@ -1,0 +1,24 @@
+# Ambiente
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# Dados (manter só a estrutura)
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+!data/**/.gitkeep
+
+# Segredos
+.env
+
+# Claude Code (configuração local pessoal)
+.claude/settings.local.json
+
+# Sistema
+.DS_Store
+Thumbs.db
