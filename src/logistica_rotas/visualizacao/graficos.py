@@ -521,3 +521,55 @@ def curva_despacho_dinamico(cen: pd.DataFrame, titulo: str) -> Figure:
     _nota(fig, "Hub no Centro de cada cidade, até 4 pedidos por moto. Execução com variação aleatória do tempo "
                "de cada viagem (lognormal, sigma 0,25).")
     return fig
+
+
+def barras_cenarios(tabela: pd.DataFrame, destaques: list[str], titulo: str, subtitulo: str, nota: str = "") -> Figure:
+    """Dois painéis com barras horizontais por cenário (índice): economia de km e entregas no prazo com variação."""
+    aplicar_estilo()
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 0.55 * len(tabela) + 2.4), sharey=True)
+    fig.subplots_adjust(top=1 - 1.25 / (0.55 * len(tabela) + 2.4), left=0.3, right=0.97, bottom=0.1, wspace=0.1)
+    pos = np.arange(len(tabela))
+    cores = [AZUL if c in destaques else "#c3c2b7" for c in tabela.index]
+    for ax, coluna, painel, limite in [(ax1, "economia_km_pct", "Economia de km", None),
+                                        (ax2, "no_prazo_real_pct", "No prazo (com variação)", 115)]:
+        valores = tabela[coluna].to_numpy()
+        barras = ax.barh(pos, valores, height=0.62, color=cores, edgecolor=SUPERFICIE, lw=1.5)
+        ax.bar_label(barras, labels=[f"{_formatar(v)}%" for v in valores], padding=4, fontsize=9.5, color=TINTA)
+        ax.set_title(painel, loc="left", fontsize=11, color=TINTA_SEC, pad=8)
+        ax.set_xlim(0, limite or max(valores.max() * 1.3, 5))
+        if limite:
+            ax.set_xticks(range(0, 101, 25))
+        ax.xaxis.set_major_formatter(PercentFormatter(decimals=0))
+        ax.grid(axis="y", visible=False)
+        ax.grid(axis="x", visible=True)
+        ax.tick_params(axis="y", length=0)
+    ax1.set_yticks(pos, tabela.index, fontsize=10)
+    ax1.invert_yaxis()
+    _titulo(fig, titulo, subtitulo)
+    if nota:
+        _nota(fig, nota)
+    return fig
+
+
+def fator_tortuosidade_osrm(pares: pd.DataFrame, fator_modelo: float = 1.3) -> Figure:
+    """Fator distância pela rua / linha reta por distância: pares (cinza), medianas por faixa (azul), ajuste e 1,3."""
+    fig, ax = _nova_figura(9.5, 5.4)
+    fig.subplots_adjust(top=0.82, left=0.09, right=0.97, bottom=0.14)
+    ax.scatter(pares["reta_km"], pares["fator_tortuosidade"].clip(upper=3), s=8, color=CINZA, alpha=0.25, lw=0,
+               label="pares de bairros")
+    faixas = pd.cut(pares["reta_km"], [0, 2, 4, 6, 10, 15, 30])
+    med = pares.groupby(faixas, observed=True).agg(x=("reta_km", "median"), y=("fator_tortuosidade", "median"))
+    ax.plot(med["x"], med["y"], color=AZUL, lw=2, marker="o", ms=7, mec=SUPERFICIE, mew=1.5, label="mediana por faixa")
+    x = np.linspace(0.5, pares["reta_km"].max(), 200)
+    ax.plot(x, 1.31 + 0.40 / x, color=LARANJA, lw=1.5, ls="--", label="ajuste: 1,31 + 0,40 / distância")
+    ax.axhline(fator_modelo, color=TINTA_SEC, lw=1.2, ls=":", label=f"fator usado no modelo ({_formatar(fator_modelo)})")
+    ax.set_ylim(1, 3.05)
+    ax.set_xlabel("Distância em linha reta entre os bairros (km)")
+    ax.set_ylabel("Distância pela rua / linha reta")
+    ax.legend(loc="upper right", fontsize=9.5)
+    _titulo(fig, f"Pela rua, o caminho é {_formatar((pares['fator_tortuosidade'].median() - 1) * 100, 0)}% maior "
+                 "que a linha reta - e bem mais nos trechos curtos",
+            "Fator de tortuosidade entre os centros dos bairros, calculado com o OSRM (malha viária do OpenStreetMap)")
+    _nota(fig, "Pares com bairro de posição simulada excluídos. Fatores acima de 3 desenhados em 3. "
+               "Roteamento: Project OSRM; dados de vias © colaboradores do OpenStreetMap.")
+    return fig

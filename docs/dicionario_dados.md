@@ -91,3 +91,7 @@ Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/tes
 | 2026-11-09 | Despacho dinâmico (notebook 07): moto espera só enquanto o prazo de todos permite; rota por força bruta (até 4 paradas) | Evita a espera fixa da janela; com 4 paradas são só 24 ordens possíveis, então a solução é exata |
 | 2026-11-09 | Medir o prazo também "com variação": fator lognormal (sigma 0,25) por viagem | O prazo planejado não mostra o custo da espera; na rua, esperar consome a folga contra o trânsito |
 | 2026-11-09 | Política sugerida: margem de 5 min, espera máxima de 5 min fora do pico e nenhuma no pico | Melhor equilíbrio observado: cerca de 2% de economia no volume atual (6% com 4x) perdendo cerca de 2 pontos de prazo; no pico o ganho é de 0,7% |
+| 2026-11-09 | Política sem espera no pico confirmada (notebook 08) | Economia de 1,9% contra 2,0% e prazo de 96,4% contra 95,3% (volume atual): quase sem custo |
+| 2026-11-09 | Coleta por bairro não compensa agrupar | Economia abaixo de 1,5% mesmo com 4x o volume; o ganho depende de centralizar a coleta (hub/dark kitchen) |
+| 2026-11-09 | Matriz OSRM entre os 45 bairros (uma consulta ao servidor público, cache versionado em `data/external/osrm_bairros.csv`) | Medir o fator de tortuosidade real com uso leve do serviço |
+| 2026-11-09 | Fator calibrado opcional: 1,31 + 0,40 / distância em linha reta (`fator="osrm"` no despacho) | Mediana real de 1,37 (1,71 até 2 km) contra 1,3 fixo; a simulação base continua com 1,3 para manter os notebooks comparáveis |

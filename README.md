@@ -4,7 +4,7 @@ Projeto de portfólio em análise de dados sobre desempenho de entregas, tempos 
 
 Base simulada de entregas de moto no ABC paulista (Santo André, São Bernardo do Campo, São Caetano do Sul, Diadema) e em Mauá, com bairros e vias reais e bairros geocodificados pelo OpenStreetMap. Pedidos, tempos e valores são simulados.
 
-> Status: exploração, limpeza, desempenho, mapas, roteirização, sensibilidade, despacho dinâmico e dashboard prontos.
+> Status: exploração, limpeza, desempenho, mapas, roteirização, sensibilidade, despacho dinâmico, políticas de coleta, distância real e dashboard prontos.
 
 ## Principais resultados
 
@@ -32,7 +32,15 @@ Base simulada de entregas de moto no ABC paulista (Santo André, São Bernardo d
 
 ![Despacho dinâmico](reports/figures/13_despacho_dinamico.png)
 
-**7. No mapa, bairros com entregas mais longas tendem a atrasar mais** (bairros geocodificados pelo OpenStreetMap). Mapa interativo em `reports/mapa_bairros.html`.
+**7. O ganho vem da centralização da coleta, não do algoritmo.** Não esperar no pico quase não custa economia (1,9% contra 2,0%) e devolve prazo (96,4% contra 95,3%). Já com um ponto de coleta por bairro, em vez de um hub por cidade, a economia cai para menos de 1,5%, mesmo com 4 vezes o volume.
+
+![Políticas e pontos de coleta](reports/figures/14_politicas_e_coleta.png)
+
+**8. Pela rua, o caminho é 37% maior que a linha reta.** Medido com o OSRM entre os 45 bairros, o fator real (1,37 de mediana, 1,71 em trechos curtos) é maior que o 1,3 usado no modelo. Com o fator calibrado, os km sobem cerca de 9%, mas a economia relativa e as conclusões se mantêm.
+
+![Fator de tortuosidade](reports/figures/15_fator_tortuosidade_osrm.png)
+
+**9. No mapa, bairros com entregas mais longas tendem a atrasar mais** (bairros geocodificados pelo OpenStreetMap). Mapa interativo em `reports/mapa_bairros.html`.
 
 ![Mapa de atraso por bairro](reports/figures/07_mapa_bairros_atraso.png)
 
@@ -73,9 +81,11 @@ jupyter lab
 5. `05_roteirizacao.ipynb` - individual x vizinho mais próximo x OR-Tools x OR-Tools com prazo em 761 lotes; troca entre km e prazo.
 6. `06_sensibilidade_rotas.ipynb` - sensibilidade da penalidade, da capacidade e da janela do lote (contando a espera), em dois volumes de demanda.
 7. `07_despacho_dinamico.ipynb` - despacho pedido a pedido com espera máxima e margem de segurança; prazo planejado e com variação de trânsito.
+8. `08_politicas_e_coleta.ipynb` - política sem espera no pico e coleta por bairro em vez de hub.
+9. `09_distancia_real_osrm.ipynb` - fator de tortuosidade real pela malha viária (OSRM) e impacto nas conclusões.
 
 ## Créditos de dados
-Coordenadas dos bairros e mapa de fundo: © colaboradores do [OpenStreetMap](https://www.openstreetmap.org/copyright), licença ODbL, consultados via Nominatim respeitando a política de uso (1 consulta/s, cache local).
+Coordenadas dos bairros e mapa de fundo: © colaboradores do [OpenStreetMap](https://www.openstreetmap.org/copyright), licença ODbL, consultados via Nominatim respeitando a política de uso (1 consulta/s, cache local). Distâncias pela malha viária: [Project OSRM](https://project-osrm.org/) (servidor público de demonstração, uma única consulta, cache local).
 
 ## Testes
 ```powershell

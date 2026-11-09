@@ -36,3 +36,25 @@ def test_margem_reduz_espera(base):
     sem = resumo_despacho(simular_despacho(base, 15, margem_min=0))
     com = resumo_despacho(simular_despacho(base, 15, margem_min=5))
     assert com["espera_media_min"] <= sem["espera_media_min"] + 1e-9
+
+
+def test_sem_espera_no_pico(base):
+    e = simular_despacho(base, 10, capacidade=4, espera_max_pico_min=0)
+    sozinhos = e.groupby("viagem").filter(lambda v: len(v) == 1)
+    # pedido de pico que abriu viagem sozinho sai na hora
+    assert (sozinhos.loc[sozinhos["pico"], "espera_min"].abs() < 1e-9).all()
+
+
+def test_coleta_por_bairro_so_agrupa_mesmo_bairro(base):
+    e = simular_despacho(base, 10, capacidade=4, ponto_coleta="bairro")
+    assert (e.groupby("viagem")["ponto_coleta"].nunique() == 1).all()
+
+
+def test_fator_osrm_aumenta_km():
+    from logistica_rotas.roteirizacao.despacho import fator_por_distancia
+
+    assert fator_por_distancia(1.0) > fator_por_distancia(10.0) > 1.3
+    b = gerar_entregas(n=800)
+    km_13 = resumo_despacho(simular_despacho(b, 0, capacidade=1))["km"]
+    km_osrm = resumo_despacho(simular_despacho(b, 0, capacidade=1, fator="osrm"))["km"]
+    assert km_osrm > km_13
