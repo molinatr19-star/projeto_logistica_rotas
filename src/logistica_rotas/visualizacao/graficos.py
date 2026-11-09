@@ -483,3 +483,41 @@ def sensibilidade_janela(sens: pd.DataFrame, titulo: str) -> Figure:
     _titulo(fig, titulo, "OR-Tools com prazo contando a espera até o despacho (fim da janela); lotes de 2+ pedidos")
     _nota(fig, "Volume 4x: base simulada com as mesmas regras e 20.000 pedidos no mesmo período.")
     return fig
+
+
+def curva_despacho_dinamico(cen: pd.DataFrame, titulo: str) -> Figure:
+    """Economia de km (x) x entregas no prazo com variação (y): uma linha por volume e margem; pontos = espera máxima."""
+    fig, ax = _nova_figura(9.5, 5.6)
+    fig.subplots_adjust(top=0.82, left=0.1, right=0.8, bottom=0.14)
+    din = cen[cen["politica"] == "dinâmico"]
+    cores = dict(zip(din["volume"].unique(), [AZUL, AQUA]))
+    estilos = {0.0: "-", 5.0: "--"}
+    for (volume, margem), g in din.groupby(["volume", "margem_min"], sort=False):
+        g = g.sort_values("espera_max_min")
+        ax.plot(g["economia_km_pct"], g["no_prazo_real_pct"], color=cores[volume], ls=estilos.get(margem, ":"), lw=2,
+                marker="o", ms=6, mec=SUPERFICIE, mew=1.2)
+        ultimo = g.iloc[-1]
+        ax.annotate(f"{volume.split(' (')[0]}, margem {margem:.0f} min", (ultimo["economia_km_pct"], ultimo["no_prazo_real_pct"]),
+                    xytext=(8, 0), textcoords="offset points", va="center", fontsize=9, color=TINTA_SEC,
+                    annotation_clip=False)
+    # rótulo da espera máxima só numa série (para não poluir)
+    serie = din[(din["volume"] == din["volume"].iloc[-1]) & (din["margem_min"] == 0)].sort_values("espera_max_min")
+    for linha in serie.itertuples(index=False):
+        if linha.espera_max_min > 0:
+            ax.annotate(f"{linha.espera_max_min:.0f} min", (linha.economia_km_pct, linha.no_prazo_real_pct),
+                        xytext=(-4, -14), textcoords="offset points", ha="center", fontsize=8.5, color=TINTA_MUTED)
+    ind = cen[cen["politica"] == "individual"]["no_prazo_real_pct"].mean()
+    ax.scatter([0], [ind], s=60, color=CINZA, zorder=4)
+    ax.annotate("Individual (sai na hora)", (0, ind), xytext=(8, 6), textcoords="offset points", fontsize=9.5,
+                color=TINTA_SEC)
+    ax.xaxis.set_major_formatter(PercentFormatter(decimals=0))
+    ax.yaxis.set_major_formatter(PercentFormatter(decimals=0))
+    ax.set_xlabel("Economia de km vs viagens individuais (toda a operação)")
+    ax.set_ylabel("Entregas no prazo (com variação de trânsito)")
+    ax.grid(axis="x", visible=True)
+    ax.set_xlim(-0.5, max(10, din["economia_km_pct"].max() + 1))
+    _titulo(fig, titulo, "Cada ponto é uma espera máxima (0, 2, 5, 10 e 15 min); linha cheia = sem margem, "
+                         "tracejada = margem de 5 min no prazo")
+    _nota(fig, "Hub no Centro de cada cidade, até 4 pedidos por moto. Execução com variação aleatória do tempo "
+               "de cada viagem (lognormal, sigma 0,25).")
+    return fig

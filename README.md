@@ -4,7 +4,7 @@ Projeto de portfólio em análise de dados sobre desempenho de entregas, tempos 
 
 Base simulada de entregas de moto no ABC paulista (Santo André, São Bernardo do Campo, São Caetano do Sul, Diadema) e em Mauá, com bairros e vias reais e bairros geocodificados pelo OpenStreetMap. Pedidos, tempos e valores são simulados.
 
-> Status: exploração, limpeza, desempenho, mapas, roteirização, sensibilidade e dashboard prontos. Próximo: despacho dinâmico.
+> Status: exploração, limpeza, desempenho, mapas, roteirização, sensibilidade, despacho dinâmico e dashboard prontos.
 
 ## Principais resultados
 
@@ -26,11 +26,13 @@ Base simulada de entregas de moto no ABC paulista (Santo André, São Bernardo d
 
 ![Exemplo de rotas](reports/figures/09_exemplo_rotas.png)
 
-**5. Mas, contando a espera do lote, nenhuma janela fixa mantém o prazo.** O teto acima supõe que os pedidos da janela já estão todos disponíveis. Contando a espera até o lote fechar, mesmo uma janela de 15 min derruba as entregas em lote para cerca de 84% no prazo (contra 98,8% saindo na hora), e 4 vezes mais volume não resolve. O estudo de sensibilidade também mostrou que uma penalidade de atraso de 10 a 30 km/min mantém cerca de 98% no prazo com 29% de economia, e que mais de 4 pedidos por moto não traz ganho. Próximo passo: despacho dinâmico.
+**5. Mas, contando a espera do lote, nenhuma janela fixa mantém o prazo.** O teto acima supõe que os pedidos da janela já estão todos disponíveis. Contando a espera até o lote fechar, mesmo uma janela de 15 min derruba as entregas em lote para cerca de 84% no prazo (contra 98,8% saindo na hora), e 4 vezes mais volume não resolve. O estudo de sensibilidade também mostrou que uma penalidade de atraso de 10 a 30 km/min mantém cerca de 98% no prazo com 29% de economia, e que mais de 4 pedidos por moto não traz ganho. ![Sensibilidade da janela](reports/figures/12_sensibilidade_janela.png)
 
-![Sensibilidade da janela](reports/figures/12_sensibilidade_janela.png)
+**6. Com despacho dinâmico, a economia realista é de 2% a 8% dos km.** Decidindo pedido a pedido (a moto só espera enquanto o prazo permite, com margem de 5 min), o prazo planejado fica intacto. No volume atual, porém, a economia é de só 1% a 3%, e chega a 4% a 8% com 4 vezes o volume, perdendo de 1 a 5 pontos de prazo na rua. No pico, quase não há ganho: a regra prática é não esperar no pico.
 
-**6. No mapa, bairros com entregas mais longas tendem a atrasar mais** (bairros geocodificados pelo OpenStreetMap). Mapa interativo em `reports/mapa_bairros.html`.
+![Despacho dinâmico](reports/figures/13_despacho_dinamico.png)
+
+**7. No mapa, bairros com entregas mais longas tendem a atrasar mais** (bairros geocodificados pelo OpenStreetMap). Mapa interativo em `reports/mapa_bairros.html`.
 
 ![Mapa de atraso por bairro](reports/figures/07_mapa_bairros_atraso.png)
 
@@ -70,6 +72,7 @@ jupyter lab
 4. `04_mapas.ipynb` - qualidade da geocodificação (43 de 45 bairros), checagem de coordenadas e mapas estático e interativo.
 5. `05_roteirizacao.ipynb` - individual x vizinho mais próximo x OR-Tools x OR-Tools com prazo em 761 lotes; troca entre km e prazo.
 6. `06_sensibilidade_rotas.ipynb` - sensibilidade da penalidade, da capacidade e da janela do lote (contando a espera), em dois volumes de demanda.
+7. `07_despacho_dinamico.ipynb` - despacho pedido a pedido com espera máxima e margem de segurança; prazo planejado e com variação de trânsito.
 
 ## Créditos de dados
 Coordenadas dos bairros e mapa de fundo: © colaboradores do [OpenStreetMap](https://www.openstreetmap.org/copyright), licença ODbL, consultados via Nominatim respeitando a política de uso (1 consulta/s, cache local).

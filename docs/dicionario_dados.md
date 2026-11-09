@@ -88,3 +88,6 @@ Implementadas em `src/logistica_rotas/metricas/kpis.py` e testadas em `tests/tes
 | 2026-11-09 | Capacidade de 3 a 4 pedidos por moto | Com 5 ou 6 o resultado não muda: o prazo limita o agrupamento a cerca de 2,4 pedidos por viagem |
 | 2026-11-09 | Resultados do notebook 05 tratados como teto teórico | Contando a espera até o fechamento do lote, nenhuma janela fixa (15 min a 2 h) mantém o prazo; próximo passo é despacho dinâmico |
 | 2026-11-09 | Escala interna do OR-Tools: distância em metros, tempo em décimos de minuto | Permite penalidades fracionárias (ex.: 0,25 km/min) com custos inteiros |
+| 2026-11-09 | Despacho dinâmico (notebook 07): moto espera só enquanto o prazo de todos permite; rota por força bruta (até 4 paradas) | Evita a espera fixa da janela; com 4 paradas são só 24 ordens possíveis, então a solução é exata |
+| 2026-11-09 | Medir o prazo também "com variação": fator lognormal (sigma 0,25) por viagem | O prazo planejado não mostra o custo da espera; na rua, esperar consome a folga contra o trânsito |
+| 2026-11-09 | Política sugerida: margem de 5 min, espera máxima de 5 min fora do pico e nenhuma no pico | Melhor equilíbrio observado: cerca de 2% de economia no volume atual (6% com 4x) perdendo cerca de 2 pontos de prazo; no pico o ganho é de 0,7% |
